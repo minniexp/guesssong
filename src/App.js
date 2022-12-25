@@ -3,6 +3,7 @@ import { IoSettingsOutline } from "react-icons/io5";
 import AnswerList from "./components/AnswerList"
 import EndGame from "./components/EndGame"
 import StartGame from "./components/StartGame"
+import TermsOfUse from './pages/TermsOfUse';
 // import music from "./music/alarm_clock.ogg"
 import './styles/App.css';
 
@@ -158,6 +159,9 @@ const settingTimer = (time) => {
   // }
   return (
     <div className="App">
+      <div className="tesing">
+        
+      </div>
       <main className="glass-container">
         <div className="settings-container">
           <IoSettingsOutline size={20} style={{color: 'black', justifyContent: 'flex-start'}}/>
@@ -223,7 +227,9 @@ const settingTimer = (time) => {
       </main>
       <div className="circle1"></div>
       <div className="circle2"></div>     
-      
+      <footer>
+        <TermsOfUse/>
+      </footer>
     </div>
   )
 }

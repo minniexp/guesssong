@@ -1,5 +1,5 @@
 import React, { useState} from 'react'
-import useToggler from './Toggler'
+import {KPopWannaOne} from '/etc/secrets/KPopWannaOne'
 import '../styles/StartGame.css'
 
 export default function StartGame(props) {
@@ -45,7 +45,7 @@ export default function StartGame(props) {
             <button className='btn-genre' id={genreStyle.Christian} onClick={handleGenreClick}> Christian </button>
 
             <button className="btn-larger" onClick={props.startingGame}>Start Game</button>
-
+            <h2>{KPopWannaOne.data[0].title}</h2>
         </div>
     )
 }
