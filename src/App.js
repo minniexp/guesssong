@@ -1,23 +1,60 @@
 import React, {useState, useRef, useEffect } from 'react'
 import { IoSettingsOutline } from "react-icons/io5";
-import AnswerList from "./components/answerList"
+import AnswerList from "./components/AnswerList"
+import EndGame from "./components/EndGame"
+import StartGame from "./components/StartGame"
 // import music from "./music/alarm_clock.ogg"
 import './styles/App.css';
 
 function App() {
   const [startClick, setStartClick] = useState(false)
   const [queryArray, setQueryArray] = useState([])
+  const [answerClick, setAnswerClick] = useState(false)
+  const [correctStyle, setCorrectStyle] = useState(
+    {0: "", 1: "", 2: "", 3: ""}
+  )
+
+  const [counter, setCounter] = useState(0)
+  const [playClick, setPlayClick] = useState(false)
+  const [viewTitleBtn, setViewTitleBtn] = useState(false)
+
+  const [score, setScore] = useState(0)
+
   // let playPromise = 
   // let pausePromise = audioElem.current.pause()
   const totalTracks = 20
   const totalRounds = 5
 
+
+  // game settings
+    //player
+
+    //music play time
+  const [timer, setTimer] = useState(2000)
+  const [originalTimer, SetOriginalTimer] = useState(2000)
+
+    //ansewr method
+  // const [answerMethod, setAnswerMethod] = useState(
+  //   {multipleChoice: true, userInput: false}
+  // )
+
+    // rounds
+  const [rounds, setRounds] = useState(5)
+
+    // genres
+  const [chosenGenre, setChosenGenre] = useState("Top Music Chart")
+
+
   const randomUnique = (range, count) => {
     let nums = new Set();
     while (nums.size < count) {
-        nums.add(Math.floor(Math.random() * (range - 1 + 1) + 1));
+        nums.add(Math.floor(Math.random() * (range - 1 + 1)));
     }
     return [...nums]
+  }
+
+  const choosingGenre = (chosenGenre) => {
+    setChosenGenre(chosenGenre)
   }
 
   // let queryArray = randomUnique(totalTracks, totalRounds)
@@ -35,7 +72,7 @@ function App() {
 
 
 
-  const startGame = () => {
+  const startingGame = () => {
     setQueryArray(randomUnique(totalTracks, totalRounds))
     setStartClick(prev=>!prev)
       // .then(()=>{
@@ -48,14 +85,67 @@ function App() {
     
   }
 
+const answerClickToggle = () => {
+  setAnswerClick(prev=>!prev)
+}
+
+  const optionClicked = (key, isCorrect) => {
+    console.log("answer clicking")
+    if (isCorrect) {
+      setScore(prev=> prev + 1);
+      setCorrectStyle(prevData => {
+        return {
+            ...prevData,
+            [key]: "correct"
+        }
+    })
+    } else {
+      setCorrectStyle(prevData => {
+        return {
+            ...prevData,
+            [key]: "incorrect"
+        }
+    })
+      console.log("incorrect")
+    }
+    answerClickToggle()
+}
+
+const clearCorrectStyle = () => {
+  setCorrectStyle(
+    {0: "", 1: "", 2: "", 3: ""}
+  )
+}
+
+const incrementCounter = () => {
+  setCounter(prev=>prev+1)
+}
+
+const resetGame = () => {
+
+  setPlayClick(false)
+  setViewTitleBtn(false)
+  setStartClick(true)
+  setCounter(0)
+  setScore(0)
+}
+
+const togglePlayClick = () => {
+  setPlayClick(prev=>!prev)
+}
+
+const toggleViewTitleBtn = () => {
+  setViewTitleBtn(prev=>!prev)
+}
+
+const settingTimer = (time) => {
+  setTimer(time)
+}
   // const gameoverOuput = (
   //   <>
   //     <h1>Game Over</h1>
   //   </>
   // )
-
-
-
 
 
 
@@ -73,10 +163,8 @@ function App() {
           <IoSettingsOutline size={20} style={{color: 'black', justifyContent: 'flex-start'}}/>
           <div className="setting-list">
               <h3 className="setting">Player(s)</h3>
-              <h3 className="setting">Answer Method</h3>
               <h3 className="setting">Music Time</h3>
               <h3 className="setting">Rounds</h3>
-              <h3 className="setting">Music Volume</h3>
               <h3 className="setting">Genre</h3>
               <div className="random-box">
                 <p>DELETE LATER</p>
@@ -86,21 +174,46 @@ function App() {
         </div>
         <div className="game-container">
           <div className="status-container">
-            <div className="left-game-status">
-              <p>Round: 1</p>
-              <p>Music Time: 2s</p>
-            </div>
-            <div className="right-game-status">
-              <p>Score: 0</p>
-            </div>
+            {counter<totalRounds ? 
+            <>
+              <div className="left-game-status">
+                <p>Round: 1</p>
+                <p>Music Time: 2s</p>
+              </div>
+              <div className="right-game-status">
+                <p>Score: {score}</p>
+              </div>
+            </>: ""}
           </div>
           <div className="content-container">
-            {startClick ? 
+            {counter>=totalRounds ? 
+              <EndGame
+                score={score}
+                resetGame={resetGame}
+              /> : startClick ? 
               <AnswerList
                 queryArray={queryArray}
                 randomUnique={randomUnique}
+                optionClicked={optionClicked}
+                answerClick={answerClick}
+                answerClickToggle={answerClickToggle}
+                correctStyle={correctStyle}
+                clearCorrectStyle={clearCorrectStyle}
+                counter={counter}
+                playClick={playClick}
+                incrementCounter={incrementCounter}
+                togglePlayClick={togglePlayClick}
+                viewTitleBtn={viewTitleBtn}
+                toggleViewTitleBtn={toggleViewTitleBtn}
+                timer={timer}
+                settingTimer={settingTimer}
+                originalTimer={originalTimer}
               /> : 
-              <button className="btn-larger" onClick={startGame}>Start Game</button>
+              <StartGame
+                startingGame={startingGame}
+                choosingGenre={choosingGenre}
+                chosenGenre={chosenGenre}
+              />
 
             }
 
@@ -109,54 +222,12 @@ function App() {
         </div>
       </main>
       <div className="circle1"></div>
-      <div className="circle2"></div>
-
-       
-            {/* {
-              Output
-            } */}
-          {/* <p>one <audio src={music} ref={audioElem}/></p>
-          <button onClick={handlePlay}>Play</button>
-          <button  onClick={handlePause}>Pause</button>
-          <p>two <audio src="https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview126/v4/7c/29/d3/7c29d334-a112-8f50-02de-f90cef0ae2cd/mzaf_17115533119839493723.plus.aac.ep.m4a" ref={audioElemTwo}/></p>
-          <button onClick={handlePlayTwo}>Play</button>
-          <button  onClick={handlePauseTwo}>Pause</button> */}
-
-
-        
+      <div className="circle2"></div>     
       
     </div>
   )
-
-  
 }
 
+
+
 export default App
-
-
-/* NOTES 
-
- <h1>Audio Test</h1>
-          {counter === totalRounds ? gameoverOuput : ""}
-          {counter}
-          <br/>
-          {queryArray.join(" ")}
-          <br/>
-          {queryIndex ? `queryIndex is ${queryIndex}` : "queryIndex not availaable"}
-          <br/>
-          {`queryCounter is ${queryArray[counter]}`}
-          <br/>
-          {playClick ? "true" : "false"}
-          <br/>
-          <button onClick={statGame}>Start Game</button>
-          <button onClick={resetGame}>Reset Game</button>
-          <audio src={data.tracks[queryIndex ? queryIndex : 0].actions[1].uri} ref={audioElem}/>
-          <button onClick={handlePlay}>Play</button>
-          <button  onClick={handlePause}>Pause</button>
-          <button onClick={nextSong}>Next Song</button>
-          <button onClick={()=>setViewTitleBtn(prev=>!prev)}>View Title</button>
-          {viewTitleBtn ? answerOutput : ""}
-
-
-
-*/
