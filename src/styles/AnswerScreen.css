@@ -1,0 +1,56 @@
+.answer-screen{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.answer-card-conatiner{
+    display: flex;
+    flex-direction: row;
+    /* justify-content: space-evenly; */
+    background: linear-gradient(to left top, rgba(255,255,255,0.7), rgba(255,255,255,0.5));
+    border-radius: 1rem;
+    margin: 0.5rem 0rem;
+    padding: 0.5rem;
+    box-shadow: 6px 6px 20px rgba(122,122, 122, 0.25);
+    cursor: pointer;
+    width: 100%;
+
+    /* height: 60%; */
+}
+.song-info{
+    /* border: 2px solid red; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 5em;
+    padding: 15px;
+}
+
+.song-title{
+    font-weight: 700;
+    font-size: 1rem;
+    padding: 0px;
+    margin: 0px;
+}  
+
+.song-artist{
+    padding: 0px;
+    margin: 0px;
+}
+
+#correct{
+    padding: 0.7rem;
+    border: 5px solid #9ecaed;
+    box-shadow: 0 0 10px #9ecaed;
+}
+  
+#incorrect{
+    padding: 0.7rem;
+    border: 5px solid #ed9e9e;
+    box-shadow: 0 0 10px #ed9e9e;
+}
