@@ -45,13 +45,13 @@ export default function NewApp() {
 
         const options = {
           method: 'GET',
-          url: `https://deezerdevs-deezer.p.rapidapi.com/playlist/${playlistID}`,
+          url: `https://deezerdevs-deezer.p.rapidapi.com/playlist/1313621735`,
           headers: {
             'X-RapidAPI-Key': process.env.REACT_APP_API_KEY,
             'X-RapidAPI-Host': process.env.REACT_APP_API_HOST
           }
         }        
-
+        console.log(process.env.REACT_APP_API_HOST)
         trackPromise(
           axios.request(options).then(function (response) {
             console.log("data received")
