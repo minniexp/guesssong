@@ -182,9 +182,14 @@ export default function PlayGame(props) {
                             <button onClick={handlePlay} className="btn-small">LISTEN AGAIN</button>
                             <button onClick={handlePlayMore} className="btn-small">{`LISTEN FOR ${(timer+1000)/1000}s`}</button>
                         </div>
-                        <button 
-                            onClick={handleAnswer}
-                            className="btn">Choose Correct Song</button>
+                        {finishPlay ?
+                            <button 
+                                onClick={handleAnswer}
+                                className="btn">Choose Correct Song</button>
+                            :
+                            ""
+                        }
+
                     </>
                     return contentOutput
                 }
