@@ -135,7 +135,6 @@
     padding: 2rem;
     border: none;
     box-shadow: 6px 6px 20px rgba(122,122, 122, 0.25);
-  
   }
   .btn-larger{
     background: linear-gradient(to right top, #65dfc9, #6cdbeb);
@@ -181,15 +180,7 @@
     height: 60%;
   }
   
-  #next-song-btn{
-    display:flex;
-    float: right;
-  
-    align-self: center;
-    justify-content: center;
-    width: 6rem;
-  
-  }
+
   .answer-input{
     background: linear-gradient(to right bottom, rgba(255,255,255,0.7), rgba(255,255,255,0.3));
     border: none; 
@@ -212,40 +203,26 @@
     cursor: pointer;
   }
   
-  #correct{
-    padding: 0.7rem;
-    border: 5px solid #9ecaed;
-    box-shadow: 0 0 10px #9ecaed;
-  }
-  
-  #incorrect{
-    padding: 0.7rem;
-    border: 5px solid #ed9e9e;
-    box-shadow: 0 0 10px #ed9e9e;
-  }
-  
-  .answer-card{
+  .play-game{
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-    padding: 15px;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
   }
-  
-  .song-title{
-    font-weight: 700;
-    font-size: 1rem;
-    padding: 0px;
-    margin: 0px;
-    /* border: 2px solid red; */
+
+  #next-song-btn{
+    position: relative;
+    display:flex;
+    align-self: end;
+    margin: 10px;
+    /* border: 2px red solid; */
+    /* justify-content: center; */
+    /* float: right; */
+    /* width: 10rem; */
   
   }
-  
-  .song-artist{
-    padding: 0px;
-    margin: 0px;
-  }
-  
   /* @media (prefers-reduced-motion: no-preference) {
     .App-logo {
       animation: App-logo-spin infinite 20s linear;

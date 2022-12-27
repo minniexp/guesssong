@@ -1,14 +1,13 @@
 import React, {useState, useEffect } from 'react'
 import Settings from './components/Settings'
 import PlayGame from './components/PlayGame'
+import LoadingIndicator from './components/LoadingIndicator'
+import { trackPromise } from 'react-promise-tracker';
 import axios from 'axios'
 
 import './styles/App.css';
 
-//loading imports
-import { trackPromise } from 'react-promise-tracker';
-import { usePromiseTracker } from "react-promise-tracker";
-import {TailSpin} from 'react-loader-spinner'
+
 
 
 
@@ -30,25 +29,7 @@ export default function NewApp() {
     const [score, setScore] = useState(0)
     const [totalArrayCount, setTotalArrayCount] = useState(0)
 
-    // Loading Symbol
-    const LoadingIndicator = props => {
-        const { promiseInProgress } = usePromiseTracker();
-      
-        return (
-          promiseInProgress && 
-          <div
-            style={{
-                width: "100%",
-                height: "100",
-                display: "flex",
-                justifyContent: "center",
-                 alignItems: "center"
-            }}
-            >
-                <TailSpin color="#00d8d8" height="200" width="200" />
-            </div>
-        )
-    }
+
 
     // API CALL
     useEffect(()=>{
@@ -70,7 +51,8 @@ export default function NewApp() {
             'X-RapidAPI-Host': `${process.env.REACT_APP_API_HOST}`
           }
         }
-        console.log("env hanlded")
+        console.log(process.env.REACT_APP_API_HOST)
+
         trackPromise(
           axios.request(options).then(function (response) {
             console.log("data received")

@@ -2,6 +2,7 @@ import React, {useState, useRef, useEffect} from 'react'
 import { IoCaretForwardCircleOutline, IoPauseCircleOutline } from "react-icons/io5";
 import {randomUnique} from "../tools/HelperFunctions"
 import AnswerScreen from './AnswerScreen';
+import "../styles/App.css"
 
 export default function PlayGame(props) {
     let counterInput = props.counter
@@ -185,6 +186,7 @@ export default function PlayGame(props) {
                         {finishPlay ?
                             <button 
                                 onClick={handleAnswer}
+                                style = {{display: 'flex', float: 'right'}}
                                 className="btn">Choose Correct Song</button>
                             :
                             ""
@@ -198,7 +200,7 @@ export default function PlayGame(props) {
                 <>
                     <h3>Game Over</h3>
                     <p>score: {scoreInput} </p>
-                    <button className="btn" onClick={resetGame} >Restart Game</button>
+                    <button className="btn-larger" onClick={resetGame} >Restart Game</button>
                 </>
                 return contentOutput
 
@@ -230,27 +232,7 @@ export default function PlayGame(props) {
 
     return (
         <div className="play-game">
-            {/* <button onClick={()=>setTestClick(prev=>!prev)}>Testing Data</button>
-            {testClick ? 
-            <>
-                <p>{queryArray.join(" ")}</p>
-                <p>{dataArrayInput[queryArray[counterInput]].title}</p>
-                <p>{dataArrayInput[queryArray[counterInput]].artist}</p>
-                <p>{queryArray.join(" ")}</p>
-                <p>{dataArrayInput[0].title}</p>
-                <p>{dataArrayInput[0].artist}</p>
-            </>
-            :
-            ""} */}
             {playGameOutput()}
-
-            <div className="listening-container">
-                {/* {queryArray ? queryArray[counterInput] ? ""} */}
-
-                <div className="play-pause-icon">
-                <br/>
-                </div>
-            </div>
         </div>
     )
 }
