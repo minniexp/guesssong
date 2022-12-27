@@ -51,7 +51,6 @@ export default function NewApp() {
             'X-RapidAPI-Host': process.env.REACT_APP_API_HOST
           }
         }        
-        console.log(process.env.REACT_APP_API_HOST)
         trackPromise(
           axios.request(options).then(function (response) {
             console.log("data received")
@@ -77,8 +76,11 @@ export default function NewApp() {
             setAxiosComplete(true)
           }).catch((error) => {
             console.error("axios get request failed")
-
             console.error(error)
+            console.error(error.response.data)
+            console.error(error.response.status)
+            console.error(error.response.headers)
+
           })
         )
         },[genres])
