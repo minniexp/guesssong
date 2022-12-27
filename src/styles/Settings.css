@@ -4,8 +4,8 @@
     position: absolute;
     margin: 0px;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    justify-content: left;
+    align-items: left;
     top: 0;
     left: 0;
     text-align: center;
@@ -17,26 +17,37 @@
 }
 
 .settings-list.active {
-    left: 0;
+    display:flex;
+    flex-direction: column;
+    justify-content: left;
+    align-items: left;
+    margin: 0px;
+    padding: 0px;
     width: 80%;
     background: linear-gradient(to right bottom, rgba(255,255,255,0.95), rgba(255,255,255,0.7));
 }
 
-
-.settings-icon {
+/* .settings-icon {
     color: black;
     size: 300px;
     justify-content: 'flex-start';
     z-index: 3;
     margin: 10px;
     left: -50%;
+} */
+.setting-list-row-container{
+    display: flex;
+    padding: 0px;
+    margin: 0px;
+    gap: 5px;
 }
 
 .setting-title{
     display: flex;
     flex-direction: row;
-    align-items: center;
+    align-items: flex-start;
     gap: 20px;
+    padding: 10px 20px;
 }
 
 .setting-title.top{
@@ -44,6 +55,9 @@
     flex-direction: row;
     margin-top:60px;
     align-items: center;
+    padding: 10px 20px;
+
+
 }
 
 .setting-title p{
@@ -75,4 +89,69 @@
     cursor: pointer;
     border: 5px solid #9ecaed;
     box-shadow: 0 0 10px #9ecaed;
+}
+
+@media screen and (max-width:1240px) {
+    .settings-list {
+        flex: 1;
+    }
+
+    .settings-list.active {
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(to right bottom, rgba(255,255,255,0.95), rgba(255,255,255,0.7));
+    }
+
+    .setting-title.top{
+        padding: 0px;
+        margin: 0px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+    .setting-title{
+        display: flex;
+        padding: 0px;
+        margin: 0px;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        flex-wrap: wrap;
+    }
+
+    .setting-list-row-container{
+        display: flex;
+        padding: 0px;
+        margin: 0px;
+        gap: 5px;
+    }
+
+    .setting-option{
+        display: flex;
+        background: linear-gradient(to left top, rgba(255,255,255,0.7), rgba(255,255,255,0.5));
+        border-radius: 1rem;
+        margin: 0.5rem 0rem;
+        padding: 0.75rem;
+        box-shadow: 6px 6px 20px rgba(122,122, 122, 0.25);
+        cursor: pointer;
+    }
+
+    #select {
+        display: flex;
+        background: linear-gradient(to left top, rgba(255,255,255,0.7), rgba(255,255,255,0.5));
+        border-radius: 1rem;
+        margin: 0.5rem 0rem;
+        padding: 0.75rem;
+        box-shadow: 6px 6px 20px rgba(122,122, 122, 0.25);
+        cursor: pointer;
+        border: 5px solid #9ecaed;
+        box-shadow: 0 0 10px #9ecaed;
+    }
+    
+}
+
+.test-icon{
+    padding: 10px;
 }

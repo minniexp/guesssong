@@ -86,38 +86,43 @@ export default function MusicPlayer (props) {
     
 
     return (
-        <div className="settings">
-            <IoSettingsOutline size={30} className="settings-icon" style={{color: 'black', zIndex: '5', padding: '10px'}}/>
-            <ul className={settingsClick ? 'settings-list active' :'settings-list'} onClick={()=>setSettingsClick(prev=>!prev)}>
-                {/* FOR FUTURE
-                <h3 className="setting">Player(s)</h3> */}
+        <div className="settings" onClick={()=>setSettingsClick(prev=>!prev)}>
+            <IoSettingsOutline size={30} className="settings-icon" style={{color: 'black', zIndex: '5'}}/>
+            <ul className={settingsClick ? 'settings-list active' :'settings-list'} >
+
                 {settingsClick ? 
-                <>
-                    <IoSettingsOutline size={30} className="settings-icon" style={{position: 'absolute', color: 'black', zIndex: '5', padding: '10px', left:'0'}}/>
-                    <div className="settings-container">
+                <div>
+                        <IoSettingsOutline size={30} className="test-icon" style={{display: 'flex', color: 'black', zIndex: '5', left: '0'}}/>
+
                         <li className="setting-title top">
                             <p>Music Play Time</p>
-                            <li className='setting-option' id={timeStyle[1]} onClick={handleTimeClick}> 1s </li>
-                            <li className='setting-option' id={timeStyle[2]} onClick={handleTimeClick}> 2s </li>
-                            <li className='setting-option' id={timeStyle[3]} onClick={handleTimeClick}> 3s </li>
-                            <li className='setting-option' id={timeStyle[5]} onClick={handleTimeClick}> 5s </li>
-                            <li className='setting-option' id={timeStyle[10]} onClick={handleTimeClick}> 10s </li>
+                            <div className="setting-list-row-container">
+                                <li className='setting-option' id={timeStyle[1]} onClick={handleTimeClick}> 1s </li>
+                                <li className='setting-option' id={timeStyle[2]} onClick={handleTimeClick}> 2s </li>
+                                <li className='setting-option' id={timeStyle[3]} onClick={handleTimeClick}> 3s </li>
+                                <li className='setting-option' id={timeStyle[5]} onClick={handleTimeClick}> 5s </li>
+                                <li className='setting-option' id={timeStyle[10]} onClick={handleTimeClick}> 10s </li>
+                            </div>
+                            
                         </li>
                         <li className="setting-title">
                             <p>Rounds</p>
-                            <li className='setting-option' id={roundsstyle[5]} onClick={handleRoundsClick}> 5 </li>
-                            <li className='setting-option' id={roundsstyle[10]} onClick={handleRoundsClick}> 10 </li>
-                            <li className='setting-option' id={roundsstyle[15]} onClick={handleRoundsClick}> 15 </li>
-                            <li className='setting-option' id={roundsstyle[20]} onClick={handleRoundsClick}> 20 </li>
+                            <div className="setting-list-row-container">
+                                <li className='setting-option' id={roundsstyle[5]} onClick={handleRoundsClick}> 5 </li>
+                                <li className='setting-option' id={roundsstyle[10]} onClick={handleRoundsClick}> 10 </li>
+                                <li className='setting-option' id={roundsstyle[15]} onClick={handleRoundsClick}> 15 </li>
+                                <li className='setting-option' id={roundsstyle[20]} onClick={handleRoundsClick}> 20 </li>
+                            </div>
                         </li>
                         <li className="setting-title">
                             <p>Genre</p>
-                            <li className='setting-option' id={genreStyle.Chart} onClick={handleGenreClick}> Top USA Chart </li>
-                            <li className='setting-option' id={genreStyle.KPop} onClick={handleGenreClick}> K-Pop </li>
-                            <li className='setting-option' id={genreStyle.Christian} onClick={handleGenreClick}> Christian </li>
+                            <div className="setting-list-row-container">
+                                <li className='setting-option' id={genreStyle.Chart} onClick={handleGenreClick}> Top USA Chart </li>
+                                <li className='setting-option' id={genreStyle.KPop} onClick={handleGenreClick}> K-Pop </li>
+                                <li className='setting-option' id={genreStyle.Christian} onClick={handleGenreClick}> Christian </li>
+                            </div>
                         </li>
-                    </div>
-                </>
+                </div>
                 :
                     ""
                 }

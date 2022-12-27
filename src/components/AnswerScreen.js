@@ -33,7 +33,7 @@ export default function AnswerScreen (props) {
                     id={correctStyleInput[item.key]}
                     onClick={()=>props.optionClicked(item.key, item.isCorrect)}
                 >
-                    <img src={dataArrayInput[item.arrayIndex].image} style={{width: '90px'}}alt="song album cover"/>
+                    <img src={dataArrayInput[item.arrayIndex].image} className="answer-card-image" alt="song album cover"/>
                     <div className="song-info">
                         <p className="song-title">{dataArrayInput[item.arrayIndex].title}</p>
                         <p className="song-artist">{dataArrayInput[item.arrayIndex].artist}</p>

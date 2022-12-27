@@ -118,7 +118,6 @@ export default function NewApp() {
                         handleGenres={handleGenres}
 
                     />
-                    
                 </div>
                 <div className="game-container">
                     <LoadingIndicator/>
