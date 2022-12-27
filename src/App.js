@@ -53,7 +53,8 @@ export default function NewApp() {
         }        
         console.log(process.env.REACT_APP_API_KEY)
 
-        console.log(process.env.REACT_APP_API_HOST)
+        console.log(process.env.REACT_APP_API_KEY)
+        console.log("not working env")
 
         trackPromise(
           axios.request(options).then(function (response) {
