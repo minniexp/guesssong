@@ -17,14 +17,15 @@ export default function PlayGame(props) {
 
     const [finishPlay, setFinishPlay] = useState(false)
     const [queryArray, setQueryArray] = useState([])
-    const [queryIndex, setQueryIndex] = useState([])
     const [answerChoicesArray, setAnswerChoicesArray] = useState([])
     const [timer, setTimer] = useState(musicPlayTimeInput)
 
 
     const [playClick, setPlayClick] = useState(false)
     const [startClick, setStartClick] = useState(false)
+    const [choicesClick, setChoicesClick] = useState(false)
     const [answerClick, setAnswerClick] = useState(false)
+
     const [viewTitleBtn, setViewTitleBtn] = useState(false)
     const [testClick, setTestClick] = useState(false)
 
@@ -41,7 +42,6 @@ export default function PlayGame(props) {
     
     // setTimeOut is placed for the setQueryIndex function to finish before starting song. The setTimeout time might need to be altered if there is error with "play"
     function handlePlay() {
-        setQueryIndex(queryArray[counterInput])
         setFinishPlay(false)
         setPlayClick(prev=>!prev)
         setTimeout(()=>{
@@ -69,20 +69,20 @@ export default function PlayGame(props) {
     
     const nextSong = () => {
         props.handleCounter(prev=>prev+1)
-        setAnswerClick(prev=>!prev)
+        setChoicesClick(prev=>!prev)
+        setAnswerClick(false)
         setCorrectStyle({0: "", 1: "", 2: "", 3: ""})
         setPlayClick(false)
         setTimer(musicPlayTimeInput)
         setFinishPlay(false)
         // props.togglePlayClick()
         setViewTitleBtn(prev=>!prev)
-        setQueryIndex(queryArray[counterInput])
         setAnswerChoicesArray([])
         console.log("next song complete")
     }
 
     function handleAnswer() {
-        setAnswerClick(prev=>!prev)
+        setChoicesClick(prev=>!prev)
         let indexArrayWithoutQueryIndex = []
         let nums = new Set()
         while (nums.size < 3) {
@@ -96,8 +96,8 @@ export default function PlayGame(props) {
         console.log(`queryArray[counterInput] array ${queryArray[counterInput]}`)
         let orderArray = randomUnique(4, 4)
         orderArray.map((item, key)=> {
-            console.log(`kety is ${key}`)
-            if (indexArray[item] === queryIndex) {
+            console.log(`key is ${key}`)
+            if (indexArray[item] === queryArray[counterInput]) {
                 setAnswerChoicesArray(prev=>[...prev, {key: key, arrayIndex:indexArray[item], isCorrect: true, style: "correct"}])
     
             } else {
@@ -111,24 +111,32 @@ export default function PlayGame(props) {
     }
 
     const optionClicked = (key, isCorrect) => {
+        setAnswerClick(true)
+
         console.log("optionClicked funciton clicking")
-        if (isCorrect) {
-          props.handleScore(prev=> prev + 1);
-          setCorrectStyle(prevData => {
-            return {
-                ...prevData,
-                [key]: "correct"
+        // toggle true or false does not occur fast enough in this function
+        if (!answerClick) {
+            if (isCorrect) {
+                props.handleScore(prev=> prev + 1);
+                setCorrectStyle(prevData => {
+                  return {
+                      ...prevData,
+                      [key]: "correct"
+                  }
+              })
+            } else {
+                setCorrectStyle(prevData => {
+                  return {
+                      ...prevData,
+                      [key]: "incorrect"
+                  }
+              })
+                console.log("incorrect")
             }
-        })
-        } else {
-          setCorrectStyle(prevData => {
-            return {
-                ...prevData,
-                [key]: "incorrect"
-            }
-        })
-          console.log("incorrect")
-        }
+        } 
+
+        
+
         // setAnswerClick(prev=>!prev)
     }
 
@@ -139,6 +147,7 @@ export default function PlayGame(props) {
         props.handleCounter(0)
         props.handleScore(0)
     }
+    
 
     useEffect (()=>{
         if(playClick) {
@@ -157,7 +166,7 @@ export default function PlayGame(props) {
         console.log("playGame Output working")
         if (startClick) {
             if (playClick) {
-                if (answerClick) {
+                if (choicesClick) {
                     contentOutput =
                     <>
                         <AnswerScreen
@@ -176,7 +185,7 @@ export default function PlayGame(props) {
                     contentOutput =
                     <>
                         <button className="btn-active" onClick={handlePause}>
-                            <IoPauseCircleOutline size={250} /> 
+                            <IoPauseCircleOutline size={200}/> 
                             <audio src={dataArrayInput[queryArray[counterInput]].audio} ref={audioElem} />
                         </button>
                         <div className="util-btn-container">
@@ -208,7 +217,7 @@ export default function PlayGame(props) {
                 contentOutput =
                 <>
                     <button disabled={finishPlay} className="btn-active" onClick={handlePlay}>
-                        <IoCaretForwardCircleOutline size={250} />
+                        <IoCaretForwardCircleOutline size={200} />
                     </button>
                 </>
                 return contentOutput
