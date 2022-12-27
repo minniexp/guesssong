@@ -60,6 +60,8 @@ export default function NewApp() {
         } else if (genres === "Christian"){
             playlistID = 1684756293
         }
+        console.log("env loading")
+
         const options = {
           method: 'GET',
           url: `https://deezerdevs-deezer.p.rapidapi.com/playlist/${playlistID}`,
@@ -67,7 +69,8 @@ export default function NewApp() {
             'X-RapidAPI-Key': `${process.env.REACT_APP_API_KEY}`,
             'X-RapidAPI-Host': `${process.env.REACT_APP_API_HOST}`
           }
-        };
+        }
+        console.log("env hanlded")
         trackPromise(
           axios.request(options).then(function (response) {
             console.log("data received")
