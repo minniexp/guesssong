@@ -47,10 +47,12 @@ export default function NewApp() {
           method: 'GET',
           url: `https://deezerdevs-deezer.p.rapidapi.com/playlist/${playlistID}`,
           headers: {
-            'X-RapidAPI-Key': process.env.REACT_APP_API_KEY,
-            'X-RapidAPI-Host': process.env.REACT_APP_API_HOST
+            'X-RapidAPI-Key': `${process.env.REACT_APP_API_KEY}`,
+            'X-RapidAPI-Host': `${process.env.REACT_APP_API_HOST}`
           }
-        }
+        }        
+        console.log(process.env.REACT_APP_API_KEY)
+
         console.log(process.env.REACT_APP_API_HOST)
 
         trackPromise(

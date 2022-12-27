@@ -13,14 +13,14 @@ export default function AnswerScreen (props) {
         
     // },[])
     const [click, setClick] = useState(false)
-    const [ready, setReady] = useState(false)
+    const [ready, setReady] = useState(true)
 
     const [output, setOutput] = useState()
 
     
-    useEffect(()=>{
-        setTimeout(()=>setReady(prev=>!prev),700)
-    },[])
+    // useEffect(()=>{
+    //     setTimeout(()=>setReady(prev=>!prev),1000)
+    // },[])
 
     
     return (
