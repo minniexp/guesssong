@@ -45,7 +45,7 @@ export default function NewApp() {
 
         const options = {
           method: 'GET',
-          url: `https://deezerdevs-deezer.p.rapidapi.com/playlist/1313621735`,
+          url: `https://deezerdevs-deezer.p.rapidapi.com/playlist/${playlistID}`,
           headers: {
             'X-RapidAPI-Key': process.env.REACT_APP_API_KEY,
             'X-RapidAPI-Host': process.env.REACT_APP_API_HOST
