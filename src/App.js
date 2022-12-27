@@ -56,20 +56,12 @@ export default function NewApp() {
         trackPromise(
           axios.request(options).then(function (response) {
             console.log("data received")
-            // console.log(response.data)
-            // setDataArray(response.data.tracks.data.map((item)=>(
-            //   {
-            //     id: item.id, 
-            //     audio: item.preview, 
-            //     title: item.title,
-            //     artist: item.artist.name, 
-            //     image: item.album.cover
-            //   })))
             let titleArray = response.data.tracks.data.map((item)=>item.title)
             let noDuplicatedTitleArray = [...new Set(titleArray)]
             let i = 0
             setDataArray(response.data.tracks.data.map((item, key)=>{
                 if (item.title === noDuplicatedTitleArray[i]) {
+                    console.log("getting data")
                     i = i+ 1;
                     setTotalArrayCount(i)
                     return (
@@ -84,10 +76,10 @@ export default function NewApp() {
                 }
             }))
             setAxiosComplete(true)
-          }).catch(function (error) {
-            console.error(error);
+          }).catch((error) => {
+            console.error(error)
           })
-        );
+        )
         },[genres])
     
     // FUNCTIONS
