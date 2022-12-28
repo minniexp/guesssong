@@ -21,12 +21,15 @@
   }
   
   .glass-container {
+    position: absolute;
+    min-height: 80vh;
+    width: 60%;
     background: white;
     min-height: 80vh;
     width: 60%;
     background: linear-gradient(to right bottom, rgba(255,255,255,0.7), rgba(255,255,255,0.3));
     border-radius: 2rem;
-    z-index: 3;
+    z-index: 5;
     backdrop-filter: blur(2rem);
     display: flex;
   }

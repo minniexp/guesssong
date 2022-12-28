@@ -3,10 +3,7 @@ import { IoSettingsOutline } from "react-icons/io5";
 import "../styles/Settings.css"
 
 export default function MusicPlayer (props) {
-    // PROPS 
-        // handleRounds={handleRounds}
-        // handleMusicPlayTime={handleMusicPlayTime}
-        // handleGenres={handleGenres}
+    let finishPlayInput = props.finishPlay
 
     const [settingsClick, setSettingsClick] = useState(false)
 
@@ -114,12 +111,12 @@ export default function MusicPlayer (props) {
                                 <li className='setting-option' id={roundsstyle[20]} onClick={handleRoundsClick}> 20 </li>
                             </div>
                         </li>
-                        <li className="setting-title">
+                        <li className="setting-title" >
                             <p>Genre</p>
                             <div className="setting-list-row-container">
-                                <li className='setting-option' id={genreStyle.Chart} onClick={handleGenreClick}> Top USA Chart </li>
-                                <li className='setting-option' id={genreStyle.KPop} onClick={handleGenreClick}> K-Pop </li>
-                                <li className='setting-option' id={genreStyle.Christian} onClick={handleGenreClick}> Christian </li>
+                                <li className={finishPlayInput ? "setting-option-disabled" : "setting-option"} id={genreStyle.Chart} onClick={handleGenreClick}> Top USA Chart </li>
+                                <li className={finishPlayInput ? "setting-option-disabled" : "setting-option"} id={genreStyle.KPop} onClick={handleGenreClick}> K-Pop </li>
+                                <li className={finishPlayInput ? "setting-option-disabled" : "setting-option"} id={genreStyle.Christian} onClick={handleGenreClick}> Christian </li>
                             </div>
                         </li>
                 </div>

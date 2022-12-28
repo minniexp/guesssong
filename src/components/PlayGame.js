@@ -11,19 +11,22 @@ export default function PlayGame(props) {
     let totalArrayCountInput = props.totalArrayCount
     let scoreInput = props.score
     let musicPlayTimeInput = props.musicPlayTime
-    let axiosCompleteInput = props.axiosComplete
+    let finishPlayInput = props.finishPlay
 
     const audioElem =useRef()
 
-    const [finishPlay, setFinishPlay] = useState(false)
     const [queryArray, setQueryArray] = useState([])
     const [answerChoicesArray, setAnswerChoicesArray] = useState([])
     const [timer, setTimer] = useState(musicPlayTimeInput)
 
-
+    // CLICK FUNCTIONS
+        // Music Play Button Clicked (TRUE : is Playing)
     const [playClick, setPlayClick] = useState(false)
+        // Gamse Start Button Clicked (TRUE : Game Started)
     const [startClick, setStartClick] = useState(false)
+        // "Choose correct Song" Button Clicked (TRUE: Answer Screen Showing)
     const [choicesClick, setChoicesClick] = useState(false)
+        // Multiple Choice Answer clicked (TRUE: one of the multiple choice answer choices was clicked)
     const [answerClick, setAnswerClick] = useState(false)
 
     const [viewTitleBtn, setViewTitleBtn] = useState(false)
@@ -40,18 +43,16 @@ export default function PlayGame(props) {
         setQueryArray(randomUnique(totalArrayCountInput, roundsInput))
     }
     
-    // setTimeOut is placed for the setQueryIndex function to finish before starting song. The setTimeout time might need to be altered if there is error with "play"
-    function handlePlay() {
-        setFinishPlay(false)
-        setPlayClick(prev=>!prev)
-        setTimeout(()=>{
-          audioElem.current.play()
-          .then(()=>{
-            console.log("playing")
-          })
-          .catch((e)=>console.log(`playback error: ${e}`))
-        },1000)
-      }
+    useEffect(()=>{
+        if(playClick) {
+            props.handleFinishPlay(false)
+            audioElem.current.play()
+            .then(()=>{
+              console.log("playing")
+            })
+            .catch((e)=>console.log(`playback error: ${e}`))
+        }
+    },[playClick])
 
     function handlePause() {
         audioElem.current.pause()
@@ -61,11 +62,19 @@ export default function PlayGame(props) {
         })
         .catch((e)=>console.log(`pausing error: ${e}`))
     }
-    
+    // ORIGINAL FUNCTION    
+    // function handlePlayMore() {
+    //     setTimer(timer+1000) 
+    //     handlePlay()
+    //   }
+
     function handlePlayMore() {
-        setTimer(timer+1000) 
-        handlePlay()
-      }
+        if (timer < 15000) {
+            setTimer(timer+1000) 
+            setPlayClick(prev=>!prev)
+        }
+
+    }
     
     const nextSong = () => {
         props.handleCounter(prev=>prev+1)
@@ -74,70 +83,23 @@ export default function PlayGame(props) {
         setCorrectStyle({0: "", 1: "", 2: "", 3: ""})
         setPlayClick(false)
         setTimer(musicPlayTimeInput)
-        setFinishPlay(false)
+        props.handleFinishPlay(false)
         // props.togglePlayClick()
         setViewTitleBtn(prev=>!prev)
         setAnswerChoicesArray([])
-        console.log("next song complete")
-    }
-
-    function handleAnswer() {
-        setChoicesClick(prev=>!prev)
-        let indexArrayWithoutQueryIndex = []
-        let nums = new Set()
-        while (nums.size < 3) {
-            let randomNumber = Math.floor(Math.random()*(totalArrayCountInput-1+1))
-            if (randomNumber !== queryArray[counterInput]) {
-                nums.add(randomNumber)
-            }
-        } indexArrayWithoutQueryIndex = [...nums]
-        let indexArray = [queryArray[counterInput], ...indexArrayWithoutQueryIndex]
-        console.log(`index array ${indexArray}`)
-        console.log(`queryArray[counterInput] array ${queryArray[counterInput]}`)
-        let orderArray = randomUnique(4, 4)
-        orderArray.map((item, key)=> {
-            console.log(`key is ${key}`)
-            if (indexArray[item] === queryArray[counterInput]) {
-                setAnswerChoicesArray(prev=>[...prev, {key: key, arrayIndex:indexArray[item], isCorrect: true, style: "correct"}])
-    
-            } else {
-                setAnswerChoicesArray(prev=>[...prev, {key: key, arrayIndex: indexArray[item], isCorrect: false, style: "incorrect"} ])
-            }
-        })
     }
 
     const handleAnswerChoicesArray = (array) => {
         setAnswerChoicesArray(array)
     }
 
-    const optionClicked = (key, isCorrect) => {
+    const handleAnswerClick = (boolean) =>{
         setAnswerClick(true)
 
-        console.log("optionClicked funciton clicking")
-        // toggle true or false does not occur fast enough in this function
-        if (!answerClick) {
-            if (isCorrect) {
-                props.handleScore(prev=> prev + 1);
-                setCorrectStyle(prevData => {
-                  return {
-                      ...prevData,
-                      [key]: "correct"
-                  }
-              })
-            } else {
-                setCorrectStyle(prevData => {
-                  return {
-                      ...prevData,
-                      [key]: "incorrect"
-                  }
-              })
-                console.log("incorrect")
-            }
-        } 
+    }
 
-        
-
-        // setAnswerClick(prev=>!prev)
+    const handleCorrectStyle = (style) => {
+        setCorrectStyle(style)
     }
 
     const resetGame = () => {
@@ -154,7 +116,7 @@ export default function PlayGame(props) {
           setTimeout(()=>{
             audioElem.current.pause()
             console.log("pausing")
-            setFinishPlay(true)
+            props.handleFinishPlay(true)
    
           },timer)
         }
@@ -171,11 +133,14 @@ export default function PlayGame(props) {
                     <>
                         <AnswerScreen
                             dataArray={dataArrayInput}
-                            correctStyle={correctStyle}
                             arrayIndex={queryArray[counterInput]}
                             answerChoicesArray={answerChoicesArray}
-                            optionClicked={optionClicked}
                             handleAnswerChoicesArray={handleAnswerChoicesArray}
+                            totalArrayCount={totalArrayCountInput}
+                            answerClick={answerClick}
+                            handleAnswerClick={handleAnswerClick}
+                            handleCorrectStyle={handleCorrectStyle}
+                            handleScore={props.handleScore}
                         />
                         <button onClick={nextSong} className="btn" id="next-song-btn">NEXT SONG</button>
                     </>
@@ -189,12 +154,12 @@ export default function PlayGame(props) {
                             <audio src={dataArrayInput[queryArray[counterInput]].audio} ref={audioElem} />
                         </button>
                         <div className="util-btn-container">
-                            <button onClick={handlePlay} className="btn-small">LISTEN AGAIN</button>
+                            <button onClick={()=>setPlayClick(prev=>!prev)} className="btn-small">LISTEN AGAIN</button>
                             <button onClick={handlePlayMore} className="btn-small">{`LISTEN FOR ${(timer+1000)/1000}s`}</button>
                         </div>
-                        {finishPlay ?
+                        {finishPlayInput ?
                             <button 
-                                onClick={handleAnswer}
+                                onClick={()=>setChoicesClick(prev=>!prev)}
                                 style = {{display: 'flex', float: 'right'}}
                                 className="btn">Choose Correct Song</button>
                             :
@@ -216,7 +181,7 @@ export default function PlayGame(props) {
             } else  {
                 contentOutput =
                 <>
-                    <button disabled={finishPlay} className="btn-active" onClick={handlePlay}>
+                    <button className="btn-active" onClick={()=>setPlayClick(prev=>!prev)}>
                         <IoCaretForwardCircleOutline size={200} />
                     </button>
                 </>

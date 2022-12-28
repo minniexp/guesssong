@@ -4,7 +4,7 @@ import PlayGame from './components/PlayGame'
 import LoadingIndicator from './components/LoadingIndicator'
 import { trackPromise } from 'react-promise-tracker';
 import axios from 'axios'
-
+import HeroSection from './components/HeroScreen';
 import './styles/App.css';
 
 
@@ -22,6 +22,10 @@ export default function NewApp() {
     const [rounds, setRounds] = useState(5)
     const [musicPlayTime, setMusicPlayTime] = useState(2000)
     const [genres, setGenres] = useState("Top USA Chart")
+
+    // Settings & Game related variables
+    const [finishPlay, setFinishPlay] = useState(false)
+
 
     // Game related variables
         //counts number of rounds played
@@ -41,8 +45,6 @@ export default function NewApp() {
         } else if (genres === "Christian"){
             playlistID = 1684756293
         }
-        console.log("env loading")
-
         const options = {
           method: 'GET',
           url: `https://deezerdevs-deezer.p.rapidapi.com/playlist/${playlistID}`,
@@ -53,17 +55,16 @@ export default function NewApp() {
         }        
         trackPromise(
           axios.request(options).then(function (response) {
-            console.log("data received")
             let titleArray = response.data.tracks.data.map((item)=>item.title)
             let noDuplicatedTitleArray = [...new Set(titleArray)]
             let i = 0
             setDataArray(response.data.tracks.data.map((item, key)=>{
                 if (item.title === noDuplicatedTitleArray[i]) {
-                    console.log("getting data")
                     i = i+ 1;
                     setTotalArrayCount(i)
                     return (
                         {
+                            key: key,
                             id: item.id, 
                             audio: item.preview, 
                             title: item.title,
@@ -75,12 +76,10 @@ export default function NewApp() {
             }))
             setAxiosComplete(true)
           }).catch((error) => {
-            console.error("axios get request failed")
             console.error(error)
             console.error(error.response.data)
             console.error(error.response.status)
             console.error(error.response.headers)
-
           })
         )
         },[genres])
@@ -96,6 +95,10 @@ export default function NewApp() {
     const handleGenres = (genre) => {
         setGenres(genre)
     }
+    // Settings and Games related functions
+    const handleFinishPlay = (boolean) => {
+        setFinishPlay(boolean)
+    }
 
     // Game related functions
     const handleCounter = (counter) =>{
@@ -108,6 +111,7 @@ export default function NewApp() {
 
     return(
         <div className="App">
+            {/* <HeroSection/> */}
             <main className="glass-container">
                 <div className="settings-container">
                     <Settings 
@@ -116,6 +120,7 @@ export default function NewApp() {
                         musicPlayTime={musicPlayTime}
                         handleMusicPlayTime={handleMusicPlayTime}
                         handleGenres={handleGenres}
+                        finishPlay={finishPlay}
 
                     />
                 </div>
@@ -142,10 +147,11 @@ export default function NewApp() {
                                     dataArray={dataArray}
                                     musicPlayTime={musicPlayTime}
                                     handleCounter={handleCounter}
-                                    axiosComplete={axiosComplete}
                                     score={score}
                                     handleScore={handleScore}
                                     totalArrayCount={totalArrayCount}
+                                    finishPlay={finishPlay}
+                                    handleFinishPlay={handleFinishPlay}
                                 />
                             </>
 
@@ -155,6 +161,7 @@ export default function NewApp() {
                         </div>
                 </div>
             </main>
+            
             <div className="circle1"></div>
             <div className="circle2"></div>     
         </div>
