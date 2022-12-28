@@ -20,6 +20,12 @@
 
     /* height: 60%; */
 }
+
+.answer-card-conatiner:active{
+    transform: scale(0.98);
+    box-shadow: 6px 6px 20px rgba(122,122, 122, 0.5);
+}
+
 .song-info{
     /* border: 2px solid red; */
     display: flex;
@@ -81,7 +87,7 @@
         cursor: pointer;
         width: 100%;
     }
-
+    
     .answer-card-image{
         width: 70px;
     }
