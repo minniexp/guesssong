@@ -41,7 +41,6 @@ export default function AnswerScreen (props) {
 
     return (
         <div className="answer-screen" >
-            {answerClickInput ? "true" : "false"}
             {answerChoicesArrayInput.map((item, key) => {
                 const isAnswerSelected = key === isSelected
 
