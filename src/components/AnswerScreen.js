@@ -23,7 +23,6 @@ export default function AnswerScreen (props) {
         let indexArray = [arrayIndexInput, ...indexArrayWithoutQueryIndex]
         let orderArray = randomUnique(4, 4)
         orderArray.map((item, key)=> {
-            console.log(`key is ${key}`)
             if (indexArray[item] === arrayIndexInput) {
                 props.handleAnswerChoicesArray(prev=>[...prev, {key: key, arrayIndex:indexArray[item], isCorrect: true, style: "correct"}])
     
@@ -33,9 +32,12 @@ export default function AnswerScreen (props) {
         })
     },[])
 
-    function handleTestAnswer(key) {
+    function handleTestAnswer(key, isCorrect) {
         props.handleAnswerClick(prev=>!prev)
         setIsSelected(key)
+        if (isCorrect) {
+            props.handleScore(prev=>prev+1)
+        }
     }
     
 
@@ -43,8 +45,6 @@ export default function AnswerScreen (props) {
         <div className="answer-screen" >
             {answerChoicesArrayInput.map((item, key) => {
                 const isAnswerSelected = key === isSelected
-
-
                 return(
                     <button 
                     disabled={answerClickInput}
@@ -52,8 +52,7 @@ export default function AnswerScreen (props) {
                     value="tesitng"
                     className="answer-card-conatiner"
                     id={item.isCorrect && answerClickInput ? item.style : isAnswerSelected ? item.style : ""}
-                    // id={correctStyleInput[item.key]}
-                    onClick={()=>handleTestAnswer(key)}
+                    onClick={()=>handleTestAnswer(key, item.isCorrect)}
                     >
                         <img src={dataArrayInput[item.arrayIndex].image} className="answer-card-image" alt="song album cover"/>
                         <div className="song-info">
@@ -62,38 +61,9 @@ export default function AnswerScreen (props) {
                         </div>
                     </button>
                 )
-
-
-
             })}
         </div>
 
 
     )
 }
-
-// {ready ? 
-//     <>
-//         {answerChoicesArrayInput.map((item, key) => (
-//             <button 
-//                 key={key}
-//                 className="answer-card-conatiner"
-//                 id={correctStyleInput[item.key]}
-//                 onClick={()=>props.optionClicked(item.key, item.isCorrect)}
-//             >
-//                 <img src={dataArrayInput[item.arrayIndex].image} className="answer-card-image" alt="song album cover"/>
-//                 <div className="song-info">
-//                     <p className="song-title">{dataArrayInput[item.arrayIndex].title}</p>
-//                     <p className="song-artist">{dataArrayInput[item.arrayIndex].artist}</p>
-//                 </div>
-//             </button>
-
-
-//         ))}
-//     </>
-//     :
-//     <>
-//         <Error/>
-//     </>
-
-// }

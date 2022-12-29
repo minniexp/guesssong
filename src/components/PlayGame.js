@@ -28,15 +28,8 @@ export default function PlayGame(props) {
     const [choicesClick, setChoicesClick] = useState(false)
         // Multiple Choice Answer clicked (TRUE: one of the multiple choice answer choices was clicked)
     const [answerClick, setAnswerClick] = useState(false)
-
-    const [viewTitleBtn, setViewTitleBtn] = useState(false)
-    const [testClick, setTestClick] = useState(false)
-
-    const [correctStyle, setCorrectStyle] = useState(
-        {0: "", 1: "", 2: "", 3: ""}
-      )
-
-
+        // Multiple Choice Answer clicked (TRUE: one of the multiple choice answer choices was clicked)
+    const [instructionsClick, setInstructionClick] = useState(false)
 
     const startingGame = () => {
         setStartClick(prev=>!prev)
@@ -62,11 +55,6 @@ export default function PlayGame(props) {
         })
         .catch((e)=>console.log(`pausing error: ${e}`))
     }
-    // ORIGINAL FUNCTION    
-    // function handlePlayMore() {
-    //     setTimer(timer+1000) 
-    //     handlePlay()
-    //   }
 
     function handlePlayMore() {
         if (timer < 15000) {
@@ -80,12 +68,9 @@ export default function PlayGame(props) {
         props.handleCounter(prev=>prev+1)
         setChoicesClick(prev=>!prev)
         setAnswerClick(false)
-        setCorrectStyle({0: "", 1: "", 2: "", 3: ""})
         setPlayClick(false)
         setTimer(musicPlayTimeInput)
         props.handleFinishPlay(false)
-        // props.togglePlayClick()
-        setViewTitleBtn(prev=>!prev)
         setAnswerChoicesArray([])
     }
 
@@ -96,10 +81,6 @@ export default function PlayGame(props) {
     const handleAnswerClick = (boolean) =>{
         setAnswerClick(true)
 
-    }
-
-    const handleCorrectStyle = (style) => {
-        setCorrectStyle(style)
     }
 
     const resetGame = () => {
@@ -125,7 +106,6 @@ export default function PlayGame(props) {
 
     const playGameOutput = () => {
         let contentOutput
-        console.log("playGame Output working")
         if (startClick) {
             if (playClick) {
                 if (choicesClick) {
@@ -139,7 +119,6 @@ export default function PlayGame(props) {
                             totalArrayCount={totalArrayCountInput}
                             answerClick={answerClick}
                             handleAnswerClick={handleAnswerClick}
-                            handleCorrectStyle={handleCorrectStyle}
                             handleScore={props.handleScore}
                         />
                         <button onClick={nextSong} className="btn" id="next-song-btn">NEXT SONG</button>
@@ -189,20 +168,34 @@ export default function PlayGame(props) {
             }
 
         } else {
-            // testingOutput = `<button className="btn-larger" onClick={startingGame}>Start Game</button>`
-            contentOutput = 
-            <>
-                <button className="btn-larger" onClick={startingGame}>Start Game</button>
-            </>
-            return contentOutput
+            if (instructionsClick) {
+                contentOutput = 
+                <div className="instructions-overview-screen">
+                    <ul className="instructions-screen">
+                        <li>1. Click Gear Button to change settings</li>
+                            <p>Please note that genre can only be changed before a song is played or after an answer is chosen.</p>
+                        <li>2. Click Start Game</li>
+                            <p>Click Play Button to listen to music</p>
+                        <li>3. Choose Correct Answer</li>
+                            <p>"Choose Correct Song" button will appear after music is done playing</p>
+                    </ul>
+                    <button className="btn-larger" onClick={startingGame}>Start Game</button>
+
+                </div>
+
+                return contentOutput
+            } else {
+                contentOutput = 
+                <div className="starting-scren">
+                    <button className="btn-larger" onClick={startingGame}>Start Game</button>
+                    <button className="btn-larger" onClick={()=>setInstructionClick(prev=>!prev)}>Instructions</button>
+
+                </div>
+                return contentOutput
+            }
+
         }
     }
-
-    // function testData() {
-    //     let testDataOuput = 
-
-    //     return testDataOuput
-    // }
 
     return (
         <div className="play-game">

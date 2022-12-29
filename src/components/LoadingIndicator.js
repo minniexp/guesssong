@@ -18,7 +18,7 @@ export default function LoadingIndicator(){
                     alignItems: "center"
             }}
             >
-                <TailSpin color="#00d8d8" height="200" width="200" />
+                <TailSpin color="#ff930f" height="200" width="200" />
             </div>
         )
     }
