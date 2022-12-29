@@ -1,6 +1,6 @@
 .App {
     min-height: 100vh;
-    background: linear-gradient(to right top, #65dfc9, #6cdbeb);
+    background: linear-gradient(to right top, #A0730C, #C0951B);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -8,14 +8,14 @@
   }
   
   h3{
-    color: #426696;
+    color: #16181B;
     font-weight:700;
     font-size: 3rem;
     opacity: 0.8;
   }
   
   p{
-    color: #658ec6;
+    color: #16181B;
     font-weight: 400;
     opacity: 0.8;
   }
@@ -104,6 +104,7 @@
     display: flex;
     justify-content: space-between;
   }
+
   .content-container{
     display: flex;
     flex-direction: column;
@@ -121,27 +122,31 @@
   }
   
   .play-pause-icon{
-    color: #65dfc9;
+    color: #f89b29;
     /* border: 2px solid red; */
     /* box-shadow: 6px 6px 20px rgba(122,122, 122, 0.25); */
   
   }
   .play-pause-icon-test{
-    color: red;
+    color: #f89b29;
   }
   .btn{
-    background: linear-gradient(to right top, #65dfc9, #6cdbeb);
+    background: linear-gradient(to right bottom, #ff930f, #ffcb5b);
     border-radius: 2rem;
     color: ghostwhite;
+    text-shadow: 1px 1px 2px #85785E, 0 0 1em #85785E, 0 0 0.2em #85785E;
+
     font-weight: 500;
     padding: 2rem;
     border: none;
     box-shadow: 6px 6px 20px rgba(122,122, 122, 0.25);
   }
   .btn-larger{
-    background: linear-gradient(to right top, #65dfc9, #6cdbeb);
+    background: linear-gradient(to right bottom, #ff930f, #ffcb5b);
     border-radius: 2rem;
     color: ghostwhite;
+    text-shadow: 1px 1px 2px #85785E, 0 0 1em #85785E, 0 0 0.2em #85785E;
+
     font-size: 1.75rem;
     font-weight: 500;
     padding: 3rem;
@@ -149,9 +154,10 @@
     box-shadow: 6px 6px 20px rgba(122,122, 122, 0.25);
   }
   .btn-small{
-    background: linear-gradient(to right top, #65dfc9, #6cdbeb);
+    background: linear-gradient(to right bottom, #ff930f, #ffcb5b);
     border-radius: 2rem;
     color: ghostwhite;
+    text-shadow: 1px 1px 2px #85785E, 0 0 1em #85785E, 0 0 0.2em #85785E;
     font-size: 0.75rem;
     font-weight: 500;
     padding: 1.5rem;
@@ -230,7 +236,7 @@
       display: flex;
     }
     .game-container{
-      flex:4;
+      min-width:60%;
     }
     .btn-small{
       display:flex;

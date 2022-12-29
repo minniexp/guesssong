@@ -150,7 +150,7 @@ export default function PlayGame(props) {
                     contentOutput =
                     <>
                         <button className="btn-active" onClick={handlePause}>
-                            <IoPauseCircleOutline size={200}/> 
+                            <IoPauseCircleOutline size={200} style={{color: '#756951'}}/> 
                             <audio src={dataArrayInput[queryArray[counterInput]].audio} ref={audioElem} />
                         </button>
                         <div className="util-btn-container">
@@ -182,7 +182,7 @@ export default function PlayGame(props) {
                 contentOutput =
                 <>
                     <button className="btn-active" onClick={()=>setPlayClick(prev=>!prev)}>
-                        <IoCaretForwardCircleOutline size={200} />
+                        <IoCaretForwardCircleOutline size={200} style={{color: '#756951'}} />
                     </button>
                 </>
                 return contentOutput
