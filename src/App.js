@@ -20,7 +20,7 @@ export default function NewApp() {
     const [genres, setGenres] = useState("Top USA Chart")
 
     // Settings & Game related variables
-    const [finishPlay, setFinishPlay] = useState(false)
+    const [startClick, setStartClick] = useState()
 
 
     // Game related variables
@@ -70,7 +70,7 @@ export default function NewApp() {
                     )
                 }
             }))
-            setTimeout(()=>{setAxiosComplete(true)})
+            setTimeout(()=>{setAxiosComplete(true)},700)
             console.log(`axioscomplete is ${axiosComplete? "true": "false"}`)
 
           }).catch((error) => {
@@ -94,8 +94,8 @@ export default function NewApp() {
         setGenres(genre)
     }
     // Settings and Games related functions
-    const handleFinishPlay = (boolean) => {
-        setFinishPlay(boolean)
+    const handleStartClick = (boolean) => {
+        setStartClick(boolean)
     }
 
     // Game related functions
@@ -120,7 +120,7 @@ export default function NewApp() {
                         musicPlayTime={musicPlayTime}
                         handleMusicPlayTime={handleMusicPlayTime}
                         handleGenres={handleGenres}
-                        finishPlay={finishPlay}
+                        startClick={startClick}
                         axiosComplete={axiosComplete}
                         handleAxiosComplete={handleAxiosComplete}
 
@@ -152,8 +152,8 @@ export default function NewApp() {
                                     score={score}
                                     handleScore={handleScore}
                                     totalArrayCount={totalArrayCount}
-                                    finishPlay={finishPlay}
-                                    handleFinishPlay={handleFinishPlay}
+                                    startClick={startClick}
+                                    handleStartClick={handleStartClick}
                                 />
                             </>
 
@@ -170,7 +170,3 @@ export default function NewApp() {
     )
 }
 
-// audio={dataArray[totalSongsInArray].audio}/>
-// <img src={dataArray[totalSongsInArray].image} alt="album-cover" />
-// <p>{dataArray[totalSongsInArray].title}</p>
-// <p>{dataArray[totalSongsInArray].artist}</p>

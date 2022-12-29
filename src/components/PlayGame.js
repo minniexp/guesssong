@@ -11,7 +11,7 @@ export default function PlayGame(props) {
     let totalArrayCountInput = props.totalArrayCount
     let scoreInput = props.score
     let musicPlayTimeInput = props.musicPlayTime
-    let finishPlayInput = props.finishPlay
+    let startClickInput = props.startClick
 
     const audioElem =useRef()
 
@@ -22,8 +22,8 @@ export default function PlayGame(props) {
     // CLICK FUNCTIONS
         // Music Play Button Clicked (TRUE : is Playing)
     const [playClick, setPlayClick] = useState(false)
-        // Gamse Start Button Clicked (TRUE : Game Started)
-    const [startClick, setStartClick] = useState(false)
+        // Music has stopped playing  (TRUE : Music has stopped Playing)
+    const [finishPlay, setFinishPlay] = useState(false)
         // "Choose correct Song" Button Clicked (TRUE: Answer Screen Showing)
     const [choicesClick, setChoicesClick] = useState(false)
         // Multiple Choice Answer clicked (TRUE: one of the multiple choice answer choices was clicked)
@@ -32,13 +32,13 @@ export default function PlayGame(props) {
     const [instructionsClick, setInstructionClick] = useState(false)
 
     const startingGame = () => {
-        setStartClick(prev=>!prev)
+        props.handleStartClick(true)
         setQueryArray(randomUnique(totalArrayCountInput, roundsInput))
     }
     
     useEffect(()=>{
         if(playClick) {
-            props.handleFinishPlay(false)
+            setFinishPlay(false)
             audioElem.current.play()
             .then(()=>{
               console.log("playing")
@@ -70,7 +70,7 @@ export default function PlayGame(props) {
         setAnswerClick(false)
         setPlayClick(false)
         setTimer(musicPlayTimeInput)
-        props.handleFinishPlay(false)
+        setFinishPlay(false)
         setAnswerChoicesArray([])
     }
 
@@ -86,7 +86,7 @@ export default function PlayGame(props) {
     const resetGame = () => {
 
         setPlayClick(false)
-        setStartClick(false)
+        props.handleStartClick(false)
         props.handleCounter(0)
         props.handleScore(0)
     }
@@ -97,7 +97,7 @@ export default function PlayGame(props) {
           setTimeout(()=>{
             audioElem.current.pause()
             console.log("pausing")
-            props.handleFinishPlay(true)
+            setFinishPlay(true)
    
           },timer)
         }
@@ -106,7 +106,7 @@ export default function PlayGame(props) {
 
     const playGameOutput = () => {
         let contentOutput
-        if (startClick) {
+        if (startClickInput) {
             if (playClick) {
                 if (choicesClick) {
                     contentOutput =
@@ -136,7 +136,7 @@ export default function PlayGame(props) {
                             <button onClick={()=>setPlayClick(prev=>!prev)} className="btn-small">LISTEN AGAIN</button>
                             <button onClick={handlePlayMore} className="btn-small">{`LISTEN FOR ${(timer+1000)/1000}s`}</button>
                         </div>
-                        {finishPlayInput ?
+                        {finishPlay ?
                             <button 
                                 onClick={()=>setChoicesClick(prev=>!prev)}
                                 style = {{display: 'flex', float: 'right'}}
@@ -173,7 +173,7 @@ export default function PlayGame(props) {
                 <div className="instructions-overview-screen">
                     <ul className="instructions-screen">
                         <li>1. Click Gear Button to change settings</li>
-                            <p>Please note that genre can only be changed before a song is played or after an answer is chosen.</p>
+                            <p>Please note that genre can only be changed before game begins</p>
                         <li>2. Click Start Game</li>
                             <p>Click Play Button to listen to music</p>
                         <li>3. Choose Correct Answer</li>
