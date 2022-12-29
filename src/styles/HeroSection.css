@@ -11,7 +11,7 @@
     z-index: 0;
     object-fit: cover;
     overflow: hidden;
-    transform: rotateY(180deg);
+    /* transform: rotateY(180deg); */
 
 }
 @media screen and (max-width:1240px) {
