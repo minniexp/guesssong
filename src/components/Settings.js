@@ -4,6 +4,7 @@ import "../styles/Settings.css"
 
 export default function MusicPlayer (props) {
     let finishPlayInput = props.finishPlay
+    let axiosCompleteInput = props.axiosComplete
 
     const [settingsClick, setSettingsClick] = useState(false)
 
@@ -23,13 +24,20 @@ export default function MusicPlayer (props) {
         if (clickedGenre === "Top USA Chart") {
             setGenreStyle({Chart: "select", KPop: "", Christian: ""})
             props.handleGenres("Top USA Chart")
+            if (axiosCompleteInput) {
+                props.handleAxiosComplete(false)
+            }
         } else if (clickedGenre === "K-Pop"){
             setGenreStyle({Chart: "", KPop: "select", Christian: ""})
             props.handleGenres("K-Pop")
-        } else if (clickedGenre === "Christian"){
+            if (axiosCompleteInput) {
+                props.handleAxiosComplete(false)
+            }        } else if (clickedGenre === "Christian"){
             setGenreStyle({Chart: "", KPop: "", Christian: "select"})
             props.handleGenres("Christian")
-
+            if (axiosCompleteInput) {
+                props.handleAxiosComplete(false)
+            }
         } else {
             setGenreStyle({Chart: "", KPop: "", Christian: ""})
         }
