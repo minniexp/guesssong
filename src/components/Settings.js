@@ -92,12 +92,12 @@ export default function MusicPlayer (props) {
 
     return (
         <div className="settings" onClick={()=>setSettingsClick(prev=>!prev)}>
-            <IoSettingsOutline size={30} className="settings-icon" style={{color: 'black', zIndex: '5'}}/>
+            <IoSettingsOutline size={30} className="settings-icon" style={{color: 'black', zIndex: '5', display: 'flex', padding: '10px'}}/>
             <ul className={settingsClick ? 'settings-list active' :'settings-list'} >
 
                 {settingsClick ? 
                 <div>
-                        <IoSettingsOutline size={30} className="test-icon" style={{display: 'flex', color: 'black', zIndex: '5', left: '0'}}/>
+                        <IoSettingsOutline size={30} className="test-icon" style={{display: 'flex', color: 'black', zIndex: '5', padding: '20px'}}/>
 
                         <li className="setting-title top">
                             <p>Music Play Time</p>
