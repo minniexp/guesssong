@@ -7,10 +7,6 @@ import axios from 'axios'
 import HeroSection from './components/HeroScreen';
 import './styles/App.css';
 
-
-
-
-
 export default function NewApp() {
     // VARIABLES
     // API related variables
@@ -52,7 +48,7 @@ export default function NewApp() {
             'X-RapidAPI-Key': process.env.REACT_APP_API_KEY,
             'X-RapidAPI-Host': process.env.REACT_APP_API_HOST
           }
-        }        
+        }
         trackPromise(
           axios.request(options).then(function (response) {
             let titleArray = response.data.tracks.data.map((item)=>item.title)
@@ -74,7 +70,9 @@ export default function NewApp() {
                     )
                 }
             }))
-            setAxiosComplete(true)
+            setTimeout(()=>{setAxiosComplete(true)})
+            console.log(`axioscomplete is ${axiosComplete? "true": "false"}`)
+
           }).catch((error) => {
             console.error(error)
             console.error(error.response.data)
@@ -107,7 +105,9 @@ export default function NewApp() {
     const handleScore = (score) => {
         setScore(score)
     }
-
+    const handleAxiosComplete = (boolean) =>{
+        setAxiosComplete(boolean)
+    }
 
     return(
         <div className="App">
@@ -121,6 +121,8 @@ export default function NewApp() {
                         handleMusicPlayTime={handleMusicPlayTime}
                         handleGenres={handleGenres}
                         finishPlay={finishPlay}
+                        axiosComplete={axiosComplete}
+                        handleAxiosComplete={handleAxiosComplete}
 
                     />
                 </div>
@@ -157,7 +159,7 @@ export default function NewApp() {
 
                             :
                             ""
-                        }
+                            }
                         </div>
                 </div>
             </main>
