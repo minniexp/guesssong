@@ -1,4 +1,4 @@
-# SONG GAME (GUESS SONG)
+# GUESS SONG (SONG GAME)
 
 #### Video Demo URL: <URL>
 
