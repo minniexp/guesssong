@@ -250,6 +250,11 @@
     align-self: end;
     margin: 10px;
   }
+  
+  .score-output{
+    font-size: 2em;
+    font-weight: 500;
+  }
 
   @media screen and (max-width:1240px) {
     .glass-container {

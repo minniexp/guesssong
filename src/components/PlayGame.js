@@ -152,7 +152,7 @@ export default function PlayGame(props) {
                 contentOutput =
                 <>
                     <h3>Game Over</h3>
-                    <p>score: {scoreInput} </p>
+                    <h3 className="score-output">Score: {scoreInput} </h3>
                     <button className="btn-larger" onClick={resetGame} >Restart Game</button>
                 </>
                 return contentOutput
