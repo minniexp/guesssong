@@ -1,7 +1,5 @@
 # GUESS SONG (SONG GAME)
 
-#### Video Demo URL: <URL>
-
 ## Description:
 
 The goal of the game is to listen to the song for a set amount of time and correctly guess the song's title and artist.
