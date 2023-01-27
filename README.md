@@ -19,7 +19,7 @@ The goal of the game is to listen to the song for a set amount of time and corre
 - Must click on play button to listen to music
 - Listen Again Button - Listen to the song for the same aount of time
 - Listen More Xs - Listen to the song for X amount of seconds (auto-increment by 1s)
-- Choose Correct Song - Once ready to choose an answer, click on this button
+- Choose Correct Song - Once song is done playing, button will show up.
 
 3. Choose Correct Answer
 
