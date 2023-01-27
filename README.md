@@ -1,6 +1,4 @@
-# SONG GAME (GUESS SONG)
-
-#### Video Demo URL: <URL>
+# GUESS SONG (SONG GAME)
 
 ## Description:
 
