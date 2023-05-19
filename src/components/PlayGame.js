@@ -37,13 +37,15 @@ export default function PlayGame(props) {
     }
     
     useEffect(()=>{
+
         if(playClick) {
             setFinishPlay(false)
             audioElem.current.play()
             .then(()=>{
-              console.log("playing")
             })
-            .catch((e)=>console.log(`playback error: ${e}`))
+            .catch((e)=>console.log(`playback error: ${e}
+            audio: ${dataArrayInput[queryArray[counterInput]].audio}
+            `))
         }
     },[playClick])
 

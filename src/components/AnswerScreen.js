@@ -25,7 +25,6 @@ export default function AnswerScreen (props) {
         orderArray.map((item, key)=> {
             if (indexArray[item] === arrayIndexInput) {
                 props.handleAnswerChoicesArray(prev=>[...prev, {key: key, arrayIndex:indexArray[item], isCorrect: true, style: "correct"}])
-    
             } else {
                 props.handleAnswerChoicesArray(prev=>[...prev, {key: key, arrayIndex: indexArray[item], isCorrect: false, style: "incorrect"} ])
             }
@@ -60,6 +59,7 @@ export default function AnswerScreen (props) {
                             <p className="song-artist">{dataArrayInput[item.arrayIndex].artist}</p>
                         </div>
                     </button>
+                    
                 )
             })}
         </div>

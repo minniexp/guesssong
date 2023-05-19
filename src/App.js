@@ -10,8 +10,8 @@ import "./styles/App.css";
 export default function NewApp() {
   // VARIABLES
   // API related variables
-  const [dataArray, setDataArray] = useState(0);
-  const [axiosComplete, setAxiosComplete] = useState(false);
+  const [dataArray, setDataArray] = useState([]);
+  const [axiosComplete, setAxiosComplete] = useState(true);
   //make sure array has max 49
 
   // Settings related variables
@@ -54,29 +54,42 @@ export default function NewApp() {
       axios
         .request(options)
         .then(function (response) {
-          let titleArray = response.data.tracks.data.map((item) => item.title);
-          let noDuplicatedTitleArray = [...new Set(titleArray)];
+          let resopnseSize = response.data.tracks.data.length
+          let responseArray = []
+          for (let i = 0; i<resopnseSize; i++){
+            if (response.data.tracks.data[i].preview.length > 0){
+              responseArray.push(response.data.tracks.data[i].title)
+            }
+          }
+
+          let noDuplicatedTitleArray = [...new Set(responseArray)];
           let i = 0;
-          setDataArray(
-            response.data.tracks.data.map((item, key) => {
-              if (item.title === noDuplicatedTitleArray[i]) {
-                i = i + 1;
-                setTotalArrayCount(i);
-                return {
-                  key: key,
-                  id: item.id,
-                  audio: item.preview,
-                  title: item.title,
-                  artist: item.artist.name,
-                  image: item.album.cover,
-                };
-              }
-            })
-          );
+          let j = 0
+          let k = 0
+          let inputArray = []
+          for (let i = 0; i<resopnseSize; i++){
+            
+            if (response.data.tracks.data[i].title === noDuplicatedTitleArray[k]){
+
+              k = k + 1
+              inputArray.push(                
+                {
+                  key: j,
+                  id: response.data.tracks.data[i].id,
+                  audio: response.data.tracks.data[i].preview,
+                  title: response.data.tracks.data[i].title,
+                  artist: response.data.tracks.data[i].artist.name,
+                  image: response.data.tracks.data[i].album.cover
+                })
+            }
+            j=j+1
+
+          }
+          setDataArray(inputArray)
+          setTotalArrayCount(inputArray.length)
           setTimeout(() => {
             setAxiosComplete(true);
           }, 700);
-          console.log(`axioscomplete is ${axiosComplete ? "true" : "false"}`);
         })
         .catch((error) => {
           console.error(error);

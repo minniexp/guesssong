@@ -52,7 +52,7 @@ export default function MusicPlayer(props) {
         KPop2000: "",
         Christian: "",
       });
-      props.handleGenres("K-Pop");
+      props.handleGenres("Top K-Pop");
       if (axiosCompleteInput) {
         props.handleAxiosComplete(false);
       }
