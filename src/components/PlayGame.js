@@ -50,11 +50,11 @@ export default function PlayGame(props) {
     },[playClick])
 
     useEffect(() => {
-        if (finishPlay) {
+        if (answerClick) {
           const songId = dataArrayInput[queryArray[counterInput]].id;
           props.removePlayedSong(songId);
         }
-      }, [finishPlay]);
+      }, [answerClick]);
 
     function handlePause() {
         audioElem.current.pause()
