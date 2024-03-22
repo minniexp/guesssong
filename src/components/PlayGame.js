@@ -49,6 +49,13 @@ export default function PlayGame(props) {
         }
     },[playClick])
 
+    useEffect(() => {
+        if (finishPlay) {
+          const songId = dataArrayInput[queryArray[counterInput]].id;
+          props.removePlayedSong(songId);
+        }
+      }, [finishPlay]);
+
     function handlePause() {
         audioElem.current.pause()
         .then(()=>{

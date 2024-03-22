@@ -147,6 +147,16 @@ export default function NewApp() {
   const handleAxiosComplete = (boolean) => {
     setAxiosComplete(boolean);
   };
+  
+  const removePlayedSong = (songId) => {
+    const updatedDataArray = dataArray.filter(song => song.id !== songId);
+    setDataArray(updatedDataArray);
+  
+    const genreKey = genres.replace(/\s+/g, '');
+    const currentDataKey = `currentData-${genreKey}`;
+    localStorage.setItem(currentDataKey, JSON.stringify(updatedDataArray));
+    setTotalArrayCount(updatedDataArray.length);
+  };
 
   return (
     <div className="App">
@@ -195,6 +205,7 @@ export default function NewApp() {
                   totalArrayCount={totalArrayCount}
                   startClick={startClick}
                   handleStartClick={handleStartClick}
+                  removePlayedSong={removePlayedSong}
                 />
               </>
             ) : (
