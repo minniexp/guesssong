@@ -30,74 +30,85 @@ export default function NewApp() {
 
   // API CALL
   useEffect(() => {
-    let playlistID;
-    if (genres === "Top USA Chart") {
-      playlistID = 1313621735;
-    } else if (genres === "Top K-Pop") {
-      playlistID = 4096400722;
-    } else if (genres === "Christian") {
-      playlistID = 1684756293;
-    } else if (genres === "2010s K-Pop") {
-      playlistID = 9001527742;
-    } else if (genres === "2000s K-Pop") {
-      playlistID = 9001299402;
-    }
-    const options = {
-      method: "GET",
-      url: `https://deezerdevs-deezer.p.rapidapi.com/playlist/${playlistID}`,
-      headers: {
-        "X-RapidAPI-Key": process.env.REACT_APP_API_KEY,
-        "X-RapidAPI-Host": process.env.REACT_APP_API_HOST,
-      },
+    const genreKey = genres.replace(/\s+/g, ''); // Key for localStorage
+    const currentDataKey = `currentData-${genreKey}`; // Key for current game data in localStorage
+
+    // Function to fetch playlist data
+    const fetchPlaylistData = async (playlistID) => {
+      const options = {
+        method: "GET",
+        url: `https://deezerdevs-deezer.p.rapidapi.com/playlist/${playlistID}`,
+        headers: {
+          "X-RapidAPI-Key": process.env.REACT_APP_API_KEY,
+          "X-RapidAPI-Host": process.env.REACT_APP_API_HOST,
+        },
+      };
+
+      try {
+        const response = await axios.request(options);
+        let responseData = response.data.tracks.data.filter(track => track.preview.length > 0).map((track, index) => ({
+          key: index,
+          id: track.id,
+          audio: track.preview,
+          title: track.title,
+          artist: track.artist.name,
+          image: track.album.cover
+        }));
+
+        // Store fetched data in localStorage
+        localStorage.setItem(genreKey, JSON.stringify(responseData));
+        localStorage.setItem(currentDataKey, JSON.stringify(responseData));
+        
+        setDataArray(responseData);
+        setTotalArrayCount(responseData.length);
+        setAxiosComplete(true);
+      } catch (error) {
+        console.error("Error fetching playlist data: ", error);
+        setAxiosComplete(true); // Ensure loader is hidden even on error
+      }
     };
-    trackPromise(
-      axios
-        .request(options)
-        .then(function (response) {
-          let resopnseSize = response.data.tracks.data.length
-          let responseArray = []
-          for (let i = 0; i<resopnseSize; i++){
-            if (response.data.tracks.data[i].preview.length > 0){
-              responseArray.push(response.data.tracks.data[i].title)
-            }
-          }
 
-          let noDuplicatedTitleArray = [...new Set(responseArray)];
-          let i = 0;
-          let j = 0
-          let k = 0
-          let inputArray = []
-          for (let i = 0; i<resopnseSize; i++){
-            
-            if (response.data.tracks.data[i].title === noDuplicatedTitleArray[k]){
+    let playlistID;
+    switch (genres) {
+      case "Top USA Chart":
+        playlistID = 1313621735;
+        break;
+      case "Top K-Pop":
+        playlistID = 4096400722;
+        break;
+      case "Christian":
+        playlistID = 1684756293;
+        break;
+      case "2010s K-Pop":
+        playlistID = 9001527742;
+        break;
+      case "2000s K-Pop":
+        playlistID = 9001299402;
+        break;
+      default:
+        playlistID = null;
+    }
 
-              k = k + 1
-              inputArray.push(                
-                {
-                  key: j,
-                  id: response.data.tracks.data[i].id,
-                  audio: response.data.tracks.data[i].preview,
-                  title: response.data.tracks.data[i].title,
-                  artist: response.data.tracks.data[i].artist.name,
-                  image: response.data.tracks.data[i].album.cover
-                })
-            }
-            j=j+1
-
-          }
-          setDataArray(inputArray)
-          setTotalArrayCount(inputArray.length)
-          setTimeout(() => {
-            setAxiosComplete(true);
-          }, 700);
-        })
-        .catch((error) => {
-          console.error(error);
-          console.error(error.response.data);
-          console.error(error.response.status);
-          console.error(error.response.headers);
-        })
-    );
+    // Attempt to retrieve existing data from localStorage
+    const storedData = localStorage.getItem(genreKey);
+    if (!storedData) {
+      // If no stored data, fetch from API and save
+      trackPromise(fetchPlaylistData(playlistID));
+    } else {
+      // Use stored data
+      const originalData = JSON.parse(storedData);
+      const currentData = localStorage.getItem(currentDataKey) ? JSON.parse(localStorage.getItem(currentDataKey)) : originalData;
+      
+      if (currentData.length < rounds) {
+        // If not enough data for the rounds, reset currentData with originalData
+        localStorage.setItem(currentDataKey, JSON.stringify(originalData));
+        setDataArray(originalData);
+      } else {
+        // Use currentData if sufficient for the rounds
+        setDataArray(currentData);
+      }
+      setTotalArrayCount(dataArray.length);
+    }
   }, [genres]);
 
   // FUNCTIONS
