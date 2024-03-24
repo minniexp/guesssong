@@ -1,6 +1,6 @@
 import React, {useState, useRef, useEffect} from 'react'
 import { IoCaretForwardCircleOutline, IoPauseCircleOutline } from "react-icons/io5";
-import {randomUnique} from "../tools/HelperFunctions"
+import {randomUniqueQuestion} from "../tools/HelperFunctions"
 import AnswerScreen from './AnswerScreen';
 import "../styles/App.css"
 
@@ -12,10 +12,11 @@ export default function PlayGame(props) {
     let scoreInput = props.score
     let musicPlayTimeInput = props.musicPlayTime
     let startClickInput = props.startClick
+    let queryQuestionInput = props.queryQuestion
 
     const audioElem =useRef()
 
-    const [queryArray, setQueryArray] = useState([])
+    // const [queryQuestion, setQueryQuestion] = useState([])
     const [answerChoicesArray, setAnswerChoicesArray] = useState([])
     const [timer, setTimer] = useState(musicPlayTimeInput)
 
@@ -31,30 +32,33 @@ export default function PlayGame(props) {
         // Multiple Choice Answer clicked (TRUE: one of the multiple choice answer choices was clicked)
     const [instructionsClick, setInstructionClick] = useState(false)
 
-    const startingGame = () => {
-        props.handleStartClick(true)
-        setQueryArray(randomUnique(totalArrayCountInput, roundsInput))
-    }
+    const [rerender, forceReRender] = useState(0);
+
+
+    // const startingGame = () => {
+    //     props.handleStartClick(true)
+    //     let question = randomUniqueQuestion(totalArrayCountInput)
+    //     console.log("queryquestion output : ", question)
+    //     setQueryQuestion(question)
+    //     // setQueryArray(randomUnique(totalArrayCountInput, roundsInput))
+    // }
     
     useEffect(()=>{
+        if(playClick && audioElem.current) {
 
-        if(playClick) {
+
             setFinishPlay(false)
+            console.log("audioEelm outside: ", audioElem)
+
             audioElem.current.play()
             .then(()=>{
             })
             .catch((e)=>console.log(`playback error: ${e}
-            audio: ${dataArrayInput[queryArray[counterInput]].audio}
+            audio: ${dataArrayInput[queryQuestionInput].audio}
             `))
         }
-    },[playClick])
 
-    useEffect(() => {
-        if (answerClick) {
-          const songId = dataArrayInput[queryArray[counterInput]].id;
-          props.removePlayedSong(songId);
-        }
-      }, [answerClick]);
+    },[playClick])
 
     function handlePause() {
         audioElem.current.pause()
@@ -64,6 +68,17 @@ export default function PlayGame(props) {
         })
         .catch((e)=>console.log(`pausing error: ${e}`))
     }
+
+    useEffect (()=>{
+        if(playClick) {
+          setTimeout(()=>{
+            audioElem.current.pause()
+            console.log("pausing")
+            setFinishPlay(true)
+   
+          },timer)
+        }
+      },[playClick,rerender])
 
     function handlePlayMore() {
         if (timer < 15000) {
@@ -81,6 +96,11 @@ export default function PlayGame(props) {
         setTimer(musicPlayTimeInput)
         setFinishPlay(false)
         setAnswerChoicesArray([])
+        console.log("totalArrayCountInput BEFORE: ", totalArrayCountInput)
+        props.removePlayedSong(dataArrayInput[queryQuestionInput].id)
+        props.handleQuryQusetion(randomUniqueQuestion(totalArrayCountInput))
+        console.log("totalArrayCountInput AFTER: ", totalArrayCountInput)
+
     }
 
     const handleAnswerChoicesArray = (array) => {
@@ -99,18 +119,35 @@ export default function PlayGame(props) {
         props.handleCounter(0)
         props.handleScore(0)
     }
-    
 
-    useEffect (()=>{
-        if(playClick) {
-          setTimeout(()=>{
-            audioElem.current.pause()
-            console.log("pausing")
-            setFinishPlay(true)
-   
-          },timer)
-        }
-      },[playClick])
+    // Function to trigger a re-render
+    const triggerReRender = () => {
+        forceReRender(prev => prev + 1);
+    };
+
+    try {
+        console.log("1")
+        console.log("dataArrayInput: ", dataArrayInput)
+
+        console.log("2")
+        console.log("queryQuestion: ", queryQuestionInput)
+
+        console.log("3")
+
+        console.log("counterInput: ", counterInput)
+        console.log("4")
+        console.log("queryQuestion: ", queryQuestionInput)
+        console.log("5")
+
+        console.log("dataArrayInput[queryQuestion].audio: ", dataArrayInput[queryQuestionInput])
+
+        console.log("dataArrayInput[queryQuestion].audio: ", dataArrayInput[queryQuestionInput].audio)
+
+        console.log("audioEelm inside: ", audioElem)
+
+    } catch {
+        console.log("ERROR HAPPEND LOGGING THESE")
+    }
 
 
     const playGameOutput = () => {
@@ -122,7 +159,7 @@ export default function PlayGame(props) {
                     <>
                         <AnswerScreen
                             dataArray={dataArrayInput}
-                            arrayIndex={queryArray[counterInput]}
+                            arrayIndex={queryQuestionInput}
                             answerChoicesArray={answerChoicesArray}
                             handleAnswerChoicesArray={handleAnswerChoicesArray}
                             totalArrayCount={totalArrayCountInput}
@@ -135,26 +172,38 @@ export default function PlayGame(props) {
                     
                     return contentOutput
                 } else {
-                    contentOutput =
-                    <>
-                        <button className="btn-active" onClick={handlePause}>
-                            <IoPauseCircleOutline size={200} style={{color: '#756951'}}/> 
-                            <audio src={dataArrayInput[queryArray[counterInput]].audio} ref={audioElem} />
-                        </button>
-                        <div className="util-btn-container">
-                            <button onClick={()=>setPlayClick(prev=>!prev)} className="btn-small">LISTEN AGAIN</button>
-                            <button onClick={handlePlayMore} className="btn-small">{`LISTEN FOR ${(timer+1000)/1000}s`}</button>
-                        </div>
-                        {finishPlay ?
-                            <button 
-                                onClick={()=>setChoicesClick(prev=>!prev)}
-                                style = {{display: 'flex', float: 'right'}}
-                                className="btn">Choose Correct Song</button>
-                            :
-                            ""
-                        }
+                    if (queryQuestionInput >=0  && dataArrayInput[queryQuestionInput]){
+                        contentOutput =
+                        <>
+                            <button className="btn-active" onClick={handlePause}>
+                                <IoPauseCircleOutline size={200} style={{color: '#756951'}}/> 
+                                <audio src={dataArrayInput[queryQuestionInput].audio} ref={audioElem} />
+                            </button>
+                            <div className="util-btn-container">
+                                <button onClick={()=>setPlayClick(prev=>!prev)} className="btn-small">LISTEN AGAIN</button>
+                                <button onClick={handlePlayMore} className="btn-small">{`LISTEN FOR ${(timer+1000)/1000}s`}</button>
+                            </div>
+                            {finishPlay ?
+                                <button 
+                                    onClick={()=>setChoicesClick(prev=>!prev)}
+                                    style = {{display: 'flex', float: 'right'}}
+                                    className="btn">Choose Correct Song</button>
+                                :
+                                ""
+                            }
+    
+                        </>
+                    } else {
+                        contentOutput = 
+                        <div style = {{display: 'flex', flexDirection: 'column'}}>
+                            <button onClick={()=> triggerReRender()} className="btn-larger">
+                                REFRESH GAME
+                            </button>
+                            <h2 style = {{margin: '0 auto', padding: '40px'}}> Error occured loading the song </h2>
 
-                    </>
+                        </div>
+                    }
+                    
                     return contentOutput
                 }
             } else if (counterInput>roundsInput-1) {
@@ -188,7 +237,7 @@ export default function PlayGame(props) {
                         <li>3. Choose Correct Answer</li>
                             <p>"Choose Correct Song" button will appear after music is done playing</p>
                     </ul>
-                    <button className="btn-larger" onClick={startingGame}>Start Game</button>
+                    <button className="btn-larger" onClick={()=>props.startingGame()}>Start Game</button>
 
                 </div>
 
@@ -196,7 +245,7 @@ export default function PlayGame(props) {
             } else {
                 contentOutput = 
                 <div className="starting-scren">
-                    <button className="btn-larger" onClick={startingGame}>Start Game</button>
+                    <button className="btn-larger" onClick={()=>props.startingGame()}>Start Game</button>
                     <button className="btn-larger" onClick={()=>setInstructionClick(prev=>!prev)}>Instructions</button>
 
                 </div>

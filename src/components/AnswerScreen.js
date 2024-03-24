@@ -11,25 +11,31 @@ export default function AnswerScreen (props) {
     let answerClickInput = props.answerClick
 
     const [isSelected, setIsSelected] = useState("")
-    useEffect(()=>{
-        let indexArrayWithoutQueryIndex = []
-        let nums = new Set()
+    useEffect(() => {
+        let indexArrayWithoutQueryIndex = [];
+        let nums = new Set();
+      
+        // Generate unique random numbers, excluding arrayIndexInput
         while (nums.size < 3) {
-            let randomNumber = Math.floor(Math.random()*(totalArrayCountInput-1+1))
-            if (randomNumber !== arrayIndexInput) {
-                nums.add(randomNumber)
-            }
-        } indexArrayWithoutQueryIndex = [...nums]
-        let indexArray = [arrayIndexInput, ...indexArrayWithoutQueryIndex]
-        let orderArray = randomUnique(4, 4)
-        orderArray.map((item, key)=> {
-            if (indexArray[item] === arrayIndexInput) {
-                props.handleAnswerChoicesArray(prev=>[...prev, {key: key, arrayIndex:indexArray[item], isCorrect: true, style: "correct"}])
-            } else {
-                props.handleAnswerChoicesArray(prev=>[...prev, {key: key, arrayIndex: indexArray[item], isCorrect: false, style: "incorrect"} ])
-            }
-        })
-    },[])
+          let randomNumber = Math.floor(Math.random() * (totalArrayCountInput - 1 + 1));
+          if (randomNumber !== arrayIndexInput) {
+            nums.add(randomNumber);
+          }
+        }
+      
+        indexArrayWithoutQueryIndex = [...nums];
+        let indexArray = [arrayIndexInput, ...indexArrayWithoutQueryIndex];
+        let orderArray = randomUnique(4, 4);
+      
+        // Use forEach for side effects without expecting a return value
+        orderArray.forEach((item, key) => {
+          if (indexArray[item] === arrayIndexInput) {
+            props.handleAnswerChoicesArray(prev => [...prev, { key: key, arrayIndex: indexArray[item], isCorrect: true, style: "correct" }]);
+          } else {
+            props.handleAnswerChoicesArray(prev => [...prev, { key: key, arrayIndex: indexArray[item], isCorrect: false, style: "incorrect" }]);
+          }
+        });
+      }, []);
 
     function handleTestAnswer(key, isCorrect) {
         props.handleAnswerClick(prev=>!prev)

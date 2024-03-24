@@ -156,6 +156,7 @@ export default function MusicPlayer(props) {
           zIndex: "5",
           display: "flex",
           padding: "10px",
+          cursor: "pointer"
         }}
       />
       <ul className={settingsClick ? "settings-list active" : "settings-list"}>
@@ -169,6 +170,7 @@ export default function MusicPlayer(props) {
                 color: "black",
                 zIndex: "5",
                 padding: "20px",
+                cursor: "pointer"
               }}
             />
 

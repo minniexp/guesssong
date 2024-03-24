@@ -5,6 +5,7 @@ import LoadingIndicator from "./components/LoadingIndicator";
 import { trackPromise } from "react-promise-tracker";
 import axios from "axios";
 import HeroSection from "./components/HeroScreen";
+import {randomUniqueQuestion} from "./tools/HelperFunctions"
 import "./styles/App.css";
 
 export default function NewApp() {
@@ -22,11 +23,13 @@ export default function NewApp() {
   // Settings & Game related variables
   const [startClick, setStartClick] = useState();
 
+
   // Game related variables
   //counts number of rounds played
   const [counter, setCounter] = useState(0);
   const [score, setScore] = useState(0);
   const [totalArrayCount, setTotalArrayCount] = useState(0);
+  const [queryQuestion, setQueryQuestion] = useState([])
 
   // API CALL
   useEffect(() => {
@@ -54,11 +57,12 @@ export default function NewApp() {
           artist: track.artist.name,
           image: track.album.cover
         }));
+        console.log("useEffect running")
 
         // Store fetched data in localStorage
         localStorage.setItem(genreKey, JSON.stringify(responseData));
         localStorage.setItem(currentDataKey, JSON.stringify(responseData));
-        
+        console.log("responseData type:" , typeof responseData)
         setDataArray(responseData);
         setTotalArrayCount(responseData.length);
         setAxiosComplete(true);
@@ -109,7 +113,8 @@ export default function NewApp() {
       }
       setTotalArrayCount(dataArray.length);
     }
-  }, [genres]);
+    console.log("dataArray.length ", genres, ": ", dataArray.length)
+  }, [genres, rounds, dataArray.length]);
 
   // FUNCTIONS
   // Settings related functions
@@ -148,6 +153,19 @@ export default function NewApp() {
     setTotalArrayCount(updatedDataArray.length);
   };
 
+  const startingGame = () => {
+    handleStartClick(true)
+    let question = randomUniqueQuestion(totalArrayCount)
+    console.log("queryquestion output : ", question)
+    setQueryQuestion(question)
+    // setQueryArray(randomUnique(totalArrayCountInput, roundsInput))
+}
+
+const handleQuryQusetion = (number) => {
+  setQueryQuestion(number)
+};
+
+
   return (
     <div className="App">
       <HeroSection />
@@ -182,7 +200,7 @@ export default function NewApp() {
             )}
           </div>
           <div className="content-container">
-            {axiosComplete ? (
+            {dataArray.length > 0 &&
               <>
                 <PlayGame
                   counter={counter}
@@ -196,11 +214,12 @@ export default function NewApp() {
                   startClick={startClick}
                   handleStartClick={handleStartClick}
                   removePlayedSong={removePlayedSong}
+                  queryQuestion={queryQuestion}
+                  startingGame={startingGame}
+                  handleQuryQusetion={handleQuryQusetion}
                 />
               </>
-            ) : (
-              ""
-            )}
+            }
           </div>
         </div>
       </main>
