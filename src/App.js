@@ -46,24 +46,14 @@ export default function NewApp() {
 
       try {
         const response = await axios.request(options);
-        const uniqueTracks = new Set();
-        let responseData = response.data.tracks.data
-          .filter(track => {
-            const trackSignature = `${track.title}-${track.artist.name}`; // Combine title and artist to create a unique signature
-            if (track.preview.length > 0 && !uniqueTracks.has(trackSignature)) {
-              uniqueTracks.add(trackSignature); // Add signature to the Set to track uniqueness
-              return true; // Keep this track
-            }
-            return false; // Exclude this track
-          })
-          .map((track, index) => ({
-            key: index,
-            id: track.id,
-            audio: track.preview,
-            title: track.title,
-            artist: track.artist.name,
-            image: track.album.cover
-          }));
+        let responseData = response.data.tracks.data.filter(track => track.preview.length > 0).map((track, index) => ({
+          key: index,
+          id: track.id,
+          audio: track.preview,
+          title: track.title,
+          artist: track.artist.name,
+          image: track.album.cover
+        }));
 
         // Store fetched data in localStorage
         localStorage.setItem(genreKey, JSON.stringify(responseData));
