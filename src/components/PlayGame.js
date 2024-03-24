@@ -45,11 +45,7 @@ export default function PlayGame(props) {
     
     useEffect(()=>{
         if(playClick && audioElem.current) {
-
-
             setFinishPlay(false)
-            console.log("audioEelm outside: ", audioElem)
-
             audioElem.current.play()
             .then(()=>{
             })
@@ -96,11 +92,8 @@ export default function PlayGame(props) {
         setTimer(musicPlayTimeInput)
         setFinishPlay(false)
         setAnswerChoicesArray([])
-        console.log("totalArrayCountInput BEFORE: ", totalArrayCountInput)
         props.removePlayedSong(dataArrayInput[queryQuestionInput].id)
-        props.handleQuryQusetion(randomUniqueQuestion(totalArrayCountInput))
-        console.log("totalArrayCountInput AFTER: ", totalArrayCountInput)
-
+        props.handleQuryQusetion(randomUniqueQuestion(totalArrayCountInput-1))
     }
 
     const handleAnswerChoicesArray = (array) => {
@@ -124,31 +117,6 @@ export default function PlayGame(props) {
     const triggerReRender = () => {
         forceReRender(prev => prev + 1);
     };
-
-    try {
-        console.log("1")
-        console.log("dataArrayInput: ", dataArrayInput)
-
-        console.log("2")
-        console.log("queryQuestion: ", queryQuestionInput)
-
-        console.log("3")
-
-        console.log("counterInput: ", counterInput)
-        console.log("4")
-        console.log("queryQuestion: ", queryQuestionInput)
-        console.log("5")
-
-        console.log("dataArrayInput[queryQuestion].audio: ", dataArrayInput[queryQuestionInput])
-
-        console.log("dataArrayInput[queryQuestion].audio: ", dataArrayInput[queryQuestionInput].audio)
-
-        console.log("audioEelm inside: ", audioElem)
-
-    } catch {
-        console.log("ERROR HAPPEND LOGGING THESE")
-    }
-
 
     const playGameOutput = () => {
         let contentOutput

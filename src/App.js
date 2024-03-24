@@ -62,7 +62,6 @@ export default function NewApp() {
         // Store fetched data in localStorage
         localStorage.setItem(genreKey, JSON.stringify(responseData));
         localStorage.setItem(currentDataKey, JSON.stringify(responseData));
-        console.log("responseData type:" , typeof responseData)
         setDataArray(responseData);
         setTotalArrayCount(responseData.length);
         setAxiosComplete(true);
@@ -113,7 +112,6 @@ export default function NewApp() {
       }
       setTotalArrayCount(dataArray.length);
     }
-    console.log("dataArray.length ", genres, ": ", dataArray.length)
   }, [genres, rounds, dataArray.length]);
 
   // FUNCTIONS
@@ -155,10 +153,7 @@ export default function NewApp() {
 
   const startingGame = () => {
     handleStartClick(true)
-    let question = randomUniqueQuestion(totalArrayCount)
-    console.log("queryquestion output : ", question)
-    setQueryQuestion(question)
-    // setQueryArray(randomUnique(totalArrayCountInput, roundsInput))
+    setQueryQuestion(randomUniqueQuestion(totalArrayCount))
 }
 
 const handleQuryQusetion = (number) => {
