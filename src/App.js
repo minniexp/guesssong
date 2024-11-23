@@ -77,7 +77,7 @@ export default function NewApp() {
         playlistID = 1313621735;
         break;
       case "Top K-Pop":
-        playlistID = 4096400722;
+        playlistID = 12244134951;
         break;
       case "Christian":
         playlistID = 1684756293;
