@@ -55,6 +55,8 @@ export default function NewApp() {
         console.log("responseData: ", responseData);
 
         setDataArray(responseData);
+        setTotalArrayCount(responseData.length);
+
         console.log("response", response);
         console.log("responseData", responseData);
 
