@@ -52,6 +52,7 @@ export default function NewApp() {
           }));
         console.log("useEffect running");
         console.log("useEffect running");
+        console.log("responseData: ", responseData);
 
         setDataArray(responseData);
         setTotalArrayCount("response", response);
