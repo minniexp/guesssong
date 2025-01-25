@@ -122,6 +122,13 @@ export default function PlayGame(props) {
   };
 
   const playGameOutput = () => {
+    console.log("queryQuestionInput: ", queryQuestionInput);
+    console.log("dataArrayInput: ", dataArrayInput);
+    console.log(
+      "dataArrayInput[queryQuestionInput]: ",
+      dataArrayInput[queryQuestionInput]
+    );
+
     let contentOutput;
     if (startClickInput) {
       if (playClick) {
