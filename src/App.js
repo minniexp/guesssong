@@ -31,8 +31,8 @@ export default function NewApp() {
   useEffect(() => {
     const fetchPlaylistData = async (playlistID) => {
       try {
-        setTotalArrayCount("calling fetchplaylist");
-        setTotalArrayCount(
+        console.log("calling fetchplaylist");
+        console.log(
           "process.env.REACT_APP_SERVER: ",
           process.env.REACT_APP_SERVER
         );
