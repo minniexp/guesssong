@@ -10,10 +10,8 @@ import "./styles/App.css";
 
 export default function NewApp() {
   // VARIABLES
-  // API related variables
   const [dataArray, setDataArray] = useState([]);
   const [axiosComplete, setAxiosComplete] = useState(true);
-  //make sure array has max 49
 
   // Settings related variables
   const [rounds, setRounds] = useState(5);
@@ -24,7 +22,6 @@ export default function NewApp() {
   const [startClick, setStartClick] = useState();
 
   // Game related variables
-  //counts number of rounds played
   const [counter, setCounter] = useState(0);
   const [score, setScore] = useState(0);
   const [totalArrayCount, setTotalArrayCount] = useState(0);
@@ -32,10 +29,6 @@ export default function NewApp() {
 
   // API CALL
   useEffect(() => {
-    const genreKey = genres.replace(/\s+/g, ""); // Key for localStorage
-    const currentDataKey = `currentData-${genreKey}`; // Key for current game data in localStorage
-
-    // Function to fetch playlist data
     const fetchPlaylistData = async (playlistID) => {
       try {
         const response = await axios.get(
@@ -53,9 +46,6 @@ export default function NewApp() {
           }));
         console.log("useEffect running");
 
-        // Store fetched data in localStorage
-        localStorage.setItem(genreKey, JSON.stringify(responseData));
-        localStorage.setItem(currentDataKey, JSON.stringify(responseData));
         setDataArray(responseData);
         setTotalArrayCount(responseData.length);
         setAxiosComplete(true);
@@ -86,32 +76,12 @@ export default function NewApp() {
         playlistID = null;
     }
 
-    // Attempt to retrieve existing data from localStorage
-    const storedData = localStorage.getItem(genreKey);
-    if (!storedData) {
-      // If no stored data, fetch from API and save
+    if (playlistID) {
       trackPromise(fetchPlaylistData(playlistID));
-    } else {
-      // Use stored data
-      const originalData = JSON.parse(storedData);
-      const currentData = localStorage.getItem(currentDataKey)
-        ? JSON.parse(localStorage.getItem(currentDataKey))
-        : originalData;
-
-      if (currentData.length < rounds) {
-        // If not enough data for the rounds, reset currentData with originalData
-        localStorage.setItem(currentDataKey, JSON.stringify(originalData));
-        setDataArray(originalData);
-      } else {
-        // Use currentData if sufficient for the rounds
-        setDataArray(currentData);
-      }
-      setTotalArrayCount(dataArray.length);
     }
-  }, [genres, rounds, dataArray.length]);
+  }, [genres, rounds]);
 
   // FUNCTIONS
-  // Settings related functions
   const handleRounds = (rounds) => {
     setRounds(rounds);
   };
@@ -121,12 +91,9 @@ export default function NewApp() {
   const handleGenres = (genre) => {
     setGenres(genre);
   };
-  // Settings and Games related functions
   const handleStartClick = (boolean) => {
     setStartClick(boolean);
   };
-
-  // Game related functions
   const handleCounter = (counter) => {
     setCounter(counter);
   };
@@ -140,10 +107,6 @@ export default function NewApp() {
   const removePlayedSong = (songId) => {
     const updatedDataArray = dataArray.filter((song) => song.id !== songId);
     setDataArray(updatedDataArray);
-
-    const genreKey = genres.replace(/\s+/g, "");
-    const currentDataKey = `currentData-${genreKey}`;
-    localStorage.setItem(currentDataKey, JSON.stringify(updatedDataArray));
     setTotalArrayCount(updatedDataArray.length);
   };
 
@@ -213,9 +176,6 @@ export default function NewApp() {
           </div>
         </div>
       </main>
-
-      {/* <div className="circle1"></div>
-            <div className="circle2"></div>      */}
     </div>
   );
 }
