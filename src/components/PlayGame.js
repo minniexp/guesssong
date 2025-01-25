@@ -71,9 +71,13 @@ export default function PlayGame(props) {
   useEffect(() => {
     if (playClick) {
       setTimeout(() => {
-        audioElem.current.pause();
-        console.log("pausing");
-        setFinishPlay(true);
+        if (audioElem) {
+          audioElem.current.pause();
+          console.log("pausing");
+          setFinishPlay(true);
+        } else {
+          console.error("audioElement is null");
+        }
       }, timer);
     }
   }, [playClick, rerender]);

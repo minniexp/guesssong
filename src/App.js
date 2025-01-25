@@ -20,6 +20,7 @@ export default function NewApp() {
 
   // Settings & Game related variables
   const [startClick, setStartClick] = useState();
+  const [refreshData, setRefreshData] = useState(false);
 
   // Game related variables
   const [counter, setCounter] = useState(0);
@@ -45,7 +46,6 @@ export default function NewApp() {
             image: track.album.cover,
           }));
         console.log("useEffect running");
-
         setDataArray(responseData);
         setTotalArrayCount(responseData.length);
 
@@ -80,7 +80,7 @@ export default function NewApp() {
     if (playlistID) {
       trackPromise(fetchPlaylistData(playlistID));
     }
-  }, [genres, rounds]);
+  }, [genres, rounds, refreshData]);
 
   // FUNCTIONS
   const handleRounds = (rounds) => {
@@ -114,6 +114,7 @@ export default function NewApp() {
   const startingGame = () => {
     handleStartClick(true);
     setQueryQuestion(randomUniqueQuestion(totalArrayCount));
+    setRefreshData(!refreshData);
   };
 
   const handleQuryQusetion = (number) => {
