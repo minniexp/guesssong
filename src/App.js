@@ -5,7 +5,7 @@ import LoadingIndicator from "./components/LoadingIndicator";
 import { trackPromise } from "react-promise-tracker";
 import axios from "axios";
 import HeroSection from "./components/HeroScreen";
-import {randomUniqueQuestion} from "./tools/HelperFunctions"
+import { randomUniqueQuestion } from "./tools/HelperFunctions";
 import "./styles/App.css";
 
 export default function NewApp() {
@@ -23,41 +23,35 @@ export default function NewApp() {
   // Settings & Game related variables
   const [startClick, setStartClick] = useState();
 
-
   // Game related variables
   //counts number of rounds played
   const [counter, setCounter] = useState(0);
   const [score, setScore] = useState(0);
   const [totalArrayCount, setTotalArrayCount] = useState(0);
-  const [queryQuestion, setQueryQuestion] = useState([])
+  const [queryQuestion, setQueryQuestion] = useState([]);
 
   // API CALL
   useEffect(() => {
-    const genreKey = genres.replace(/\s+/g, ''); // Key for localStorage
+    const genreKey = genres.replace(/\s+/g, ""); // Key for localStorage
     const currentDataKey = `currentData-${genreKey}`; // Key for current game data in localStorage
 
     // Function to fetch playlist data
     const fetchPlaylistData = async (playlistID) => {
-      const options = {
-        method: "GET",
-        url: `https://deezerdevs-deezer.p.rapidapi.com/playlist/${playlistID}`,
-        headers: {
-          "X-RapidAPI-Key": process.env.REACT_APP_API_KEY,
-          "X-RapidAPI-Host": process.env.REACT_APP_API_HOST,
-        },
-      };
-
       try {
-        const response = await axios.request(options);
-        let responseData = response.data.tracks.data.filter(track => track.preview.length > 0).map((track, index) => ({
-          key: index,
-          id: track.id,
-          audio: track.preview,
-          title: track.title,
-          artist: track.artist.name,
-          image: track.album.cover
-        }));
-        console.log("useEffect running")
+        const response = await axios.get(
+          `${process.env.REACT_APP_SERVER}/api/playlist/${playlistID}`
+        );
+        let responseData = response.data.tracks.data
+          .filter((track) => track.preview.length > 0)
+          .map((track, index) => ({
+            key: index,
+            id: track.id,
+            audio: track.preview,
+            title: track.title,
+            artist: track.artist.name,
+            image: track.album.cover,
+          }));
+        console.log("useEffect running");
 
         // Store fetched data in localStorage
         localStorage.setItem(genreKey, JSON.stringify(responseData));
@@ -100,8 +94,10 @@ export default function NewApp() {
     } else {
       // Use stored data
       const originalData = JSON.parse(storedData);
-      const currentData = localStorage.getItem(currentDataKey) ? JSON.parse(localStorage.getItem(currentDataKey)) : originalData;
-      
+      const currentData = localStorage.getItem(currentDataKey)
+        ? JSON.parse(localStorage.getItem(currentDataKey))
+        : originalData;
+
       if (currentData.length < rounds) {
         // If not enough data for the rounds, reset currentData with originalData
         localStorage.setItem(currentDataKey, JSON.stringify(originalData));
@@ -140,26 +136,25 @@ export default function NewApp() {
   const handleAxiosComplete = (boolean) => {
     setAxiosComplete(boolean);
   };
-  
+
   const removePlayedSong = (songId) => {
-    const updatedDataArray = dataArray.filter(song => song.id !== songId);
+    const updatedDataArray = dataArray.filter((song) => song.id !== songId);
     setDataArray(updatedDataArray);
-  
-    const genreKey = genres.replace(/\s+/g, '');
+
+    const genreKey = genres.replace(/\s+/g, "");
     const currentDataKey = `currentData-${genreKey}`;
     localStorage.setItem(currentDataKey, JSON.stringify(updatedDataArray));
     setTotalArrayCount(updatedDataArray.length);
   };
 
   const startingGame = () => {
-    handleStartClick(true)
-    setQueryQuestion(randomUniqueQuestion(totalArrayCount))
-}
+    handleStartClick(true);
+    setQueryQuestion(randomUniqueQuestion(totalArrayCount));
+  };
 
-const handleQuryQusetion = (number) => {
-  setQueryQuestion(number)
-};
-
+  const handleQuryQusetion = (number) => {
+    setQueryQuestion(number);
+  };
 
   return (
     <div className="App">
@@ -195,7 +190,7 @@ const handleQuryQusetion = (number) => {
             )}
           </div>
           <div className="content-container">
-            {dataArray.length > 0 &&
+            {dataArray.length > 0 && (
               <>
                 <PlayGame
                   counter={counter}
@@ -214,7 +209,7 @@ const handleQuryQusetion = (number) => {
                   handleQuryQusetion={handleQuryQusetion}
                 />
               </>
-            }
+            )}
           </div>
         </div>
       </main>
