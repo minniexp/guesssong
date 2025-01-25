@@ -45,9 +45,12 @@ export default function NewApp() {
             image: track.album.cover,
           }));
         console.log("useEffect running");
+        console.log("useEffect running");
 
         setDataArray(responseData);
-        setTotalArrayCount(responseData.length);
+        setTotalArrayCount("response", response);
+        setTotalArrayCount("responseData", responseData);
+
         setAxiosComplete(true);
       } catch (error) {
         console.error("Error fetching playlist data: ", error);
