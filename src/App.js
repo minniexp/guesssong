@@ -31,6 +31,12 @@ export default function NewApp() {
   useEffect(() => {
     const fetchPlaylistData = async (playlistID) => {
       try {
+        setTotalArrayCount("calling fetchplaylist");
+        setTotalArrayCount(
+          "process.env.REACT_APP_SERVER: ",
+          process.env.REACT_APP_SERVER
+        );
+
         const response = await axios.get(
           `${process.env.REACT_APP_SERVER}/api/playlist/${playlistID}`
         );
