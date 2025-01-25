@@ -55,8 +55,8 @@ export default function NewApp() {
         console.log("responseData: ", responseData);
 
         setDataArray(responseData);
-        setTotalArrayCount("response", response);
-        setTotalArrayCount("responseData", responseData);
+        console.log("response", response);
+        console.log("responseData", responseData);
 
         setAxiosComplete(true);
       } catch (error) {
