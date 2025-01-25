@@ -145,6 +145,7 @@ export default function NewApp() {
             handleAxiosComplete={handleAxiosComplete}
           />
         </div>
+        <p>Query QUestion: {queryQuestion}</p>
         <div className="game-container">
           <LoadingIndicator />
           <div className="status-container">
