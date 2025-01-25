@@ -31,12 +31,6 @@ export default function NewApp() {
   useEffect(() => {
     const fetchPlaylistData = async (playlistID) => {
       try {
-        console.log("calling fetchplaylist");
-        console.log(
-          "process.env.REACT_APP_SERVER: ",
-          process.env.REACT_APP_SERVER
-        );
-
         const response = await axios.get(
           `${process.env.REACT_APP_SERVER}/api/playlist/${playlistID}`
         );
@@ -51,14 +45,9 @@ export default function NewApp() {
             image: track.album.cover,
           }));
         console.log("useEffect running");
-        console.log("useEffect running");
-        console.log("responseData: ", responseData);
 
         setDataArray(responseData);
         setTotalArrayCount(responseData.length);
-
-        console.log("response", response);
-        console.log("responseData", responseData);
 
         setAxiosComplete(true);
       } catch (error) {
@@ -147,9 +136,6 @@ export default function NewApp() {
             handleAxiosComplete={handleAxiosComplete}
           />
         </div>
-        <p>totalArrayCount: {totalArrayCount}</p>
-
-        <p>Query QUestion: {queryQuestion}</p>
         <div className="game-container">
           <LoadingIndicator />
           <div className="status-container">

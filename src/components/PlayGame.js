@@ -47,10 +47,6 @@ export default function PlayGame(props) {
 
   useEffect(() => {
     if (playClick && audioElem.current) {
-      console.log(
-        "dataArrayInput[queryQuestionInput].audio: ",
-        dataArrayInput[queryQuestionInput].audio
-      );
       setFinishPlay(false);
       audioElem.current
         .play()
@@ -122,13 +118,6 @@ export default function PlayGame(props) {
   };
 
   const playGameOutput = () => {
-    console.log("queryQuestionInput: ", queryQuestionInput);
-    console.log("dataArrayInput: ", dataArrayInput);
-    console.log(
-      "dataArrayInput[queryQuestionInput]: ",
-      dataArrayInput[queryQuestionInput]
-    );
-
     let contentOutput;
     if (startClickInput) {
       if (playClick) {
